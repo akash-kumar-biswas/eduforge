@@ -294,6 +294,7 @@
             <h5 class="table-card-title">All Students</h5>
         </div>
         <div class="p-3">
+            <div class="table-responsive">
             <table id="students-table" class="table table-hover">
                 <thead>
                     <tr>
@@ -372,6 +373,7 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 

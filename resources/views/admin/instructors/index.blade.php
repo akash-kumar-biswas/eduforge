@@ -270,70 +270,72 @@
             <h5 class="table-card-title">All Instructors</h5>
         </div>
         <div class="p-3">
-            <table id="instructors-table" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="width: 60px;">#</th>
-                        <th style="width: 80px;">Avatar</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Bio</th>
-                        <th style="width: 100px;">Status</th>
-                        <th style="width: 120px; text-align: center;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($instructors as $instructor)
+            <div class="table-responsive">
+                <table id="instructors-table" class="table table-hover">
+                    <thead>
                         <tr>
-                            <td><strong>{{ $instructor->id }}</strong></td>
-                            <td>
-                                @if($instructor->image)
-                                    <img src="{{ asset('uploads/instructors/' . $instructor->image) }}"
-                                        alt="{{ $instructor->name }}" class="instructor-avatar">
-                                @else
-                                    <div class="avatar-placeholder">
-                                        {{ strtoupper(substr($instructor->name, 0, 1)) }}
-                                    </div>
-                                @endif
-                            </td>
-                            <td><strong>{{ $instructor->name }}</strong></td>
-                            <td class="text-muted">{{ $instructor->email }}</td>
-                            <td>
-                                <span class="bio-text" title="{{ $instructor->bio }}">
-                                    {{ $instructor->bio ?? 'No bio' }}
-                                </span>
-                            </td>
-                            <td>
-                                @if($instructor->status)
-                                    <span class="badge-status-active">Active</span>
-                                @else
-                                    <span class="badge-status-inactive">Inactive</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2 justify-content-center">
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('admin.instructors.edit', $instructor->id) }}" class="btn-action-edit"
-                                        title="Edit">
-                                        <i class="bi bi-pencil" style="color: #04317aff; font-size: 1.1rem;"></i>
-                                    </a>
-
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('admin.instructors.destroy', $instructor->id) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this instructor?');"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-action-delete" title="Delete">
-                                            <i class="bi bi-trash" style="color: #ef4444; font-size: 1.1rem;"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th style="width: 60px;">#</th>
+                            <th style="width: 80px;">Avatar</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Bio</th>
+                            <th style="width: 100px;">Status</th>
+                            <th style="width: 120px; text-align: center;">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($instructors as $instructor)
+                            <tr>
+                                <td><strong>{{ $instructor->id }}</strong></td>
+                                <td>
+                                    @if($instructor->image)
+                                        <img src="{{ asset('uploads/instructors/' . $instructor->image) }}"
+                                            alt="{{ $instructor->name }}" class="instructor-avatar">
+                                    @else
+                                        <div class="avatar-placeholder">
+                                            {{ strtoupper(substr($instructor->name, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                </td>
+                                <td><strong>{{ $instructor->name }}</strong></td>
+                                <td class="text-muted">{{ $instructor->email }}</td>
+                                <td>
+                                    <span class="bio-text" title="{{ $instructor->bio }}">
+                                        {{ $instructor->bio ?? 'No bio' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if($instructor->status)
+                                        <span class="badge-status-active">Active</span>
+                                    @else
+                                        <span class="badge-status-inactive">Inactive</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('admin.instructors.edit', $instructor->id) }}" class="btn-action-edit"
+                                            title="Edit">
+                                            <i class="bi bi-pencil" style="color: #04317aff; font-size: 1.1rem;"></i>
+                                        </a>
+
+                                        <!-- Delete Button -->
+                                        <form action="{{ route('admin.instructors.destroy', $instructor->id) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this instructor?');"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-action-delete" title="Delete">
+                                                <i class="bi bi-trash" style="color: #ef4444; font-size: 1.1rem;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection

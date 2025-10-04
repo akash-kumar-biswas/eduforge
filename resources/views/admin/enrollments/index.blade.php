@@ -386,79 +386,81 @@
             <h5 class="table-card-title">All Enrollments</h5>
         </div>
         <div class="p-3">
-            <table id="enrollments-table" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="width: 60px;">#</th>
-                        <th>Student</th>
-                        <th>Email</th>
-                        <th>Course</th>
-                        <th style="width: 80px;">Image</th>
-                        <th>Instructor</th>
-                        <th style="width: 130px;">Enrolled Date</th>
-                        <th style="width: 120px; text-align: center;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($enrollments as $enrollment)
+            <div class="table-responsive">
+                <table id="enrollments-table" class="table table-hover">
+                    <thead>
                         <tr>
-                            <td><strong>{{ $enrollment->id }}</strong></td>
-                            <td>
-                                <strong>{{ $enrollment->student ? $enrollment->student->name : 'N/A' }}</strong>
-                            </td>
-                            <td>
-                                <span class="email-text">
-                                    {{ $enrollment->student ? $enrollment->student->email : 'N/A' }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="course-title"
-                                    title="{{ $enrollment->course ? $enrollment->course->title : 'N/A' }}">
-                                    {{ $enrollment->course ? $enrollment->course->title : 'N/A' }}
-                                </span>
-                            </td>
-                            <td>
-                                @if($enrollment->course && $enrollment->course->image)
-                                    <img src="{{ asset('uploads/courses/' . $enrollment->course->image) }}"
-                                        alt="{{ $enrollment->course->title }}" class="course-thumbnail">
-                                @else
-                                    <div class="avatar-placeholder">
-                                        <i class="bi bi-book"></i>
-                                    </div>
-                                @endif
-                            </td>
-                            <td>
-                                <strong>{{ $enrollment->course && $enrollment->course->instructor ? $enrollment->course->instructor->name : 'N/A' }}</strong>
-                            </td>
-                            <td>
-                                <span class="badge-date">
-                                    {{ $enrollment->created_at->format('M d, Y') }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2 justify-content-center">
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('admin.enrollments.edit', $enrollment->id) }}" class="btn-action-edit"
-                                        title="Edit">
-                                        <i class="bi bi-pencil" style="color: #04317aff; font-size: 1.1rem;"></i>
-                                    </a>
-
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('admin.enrollments.destroy', $enrollment->id) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this enrollment?');"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-action-delete" title="Delete">
-                                            <i class="bi bi-trash" style="color: #ef4444; font-size: 1.1rem;"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th style="width: 60px;">#</th>
+                            <th>Student</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th style="width: 80px;">Image</th>
+                            <th>Instructor</th>
+                            <th style="width: 130px;">Enrolled Date</th>
+                            <th style="width: 120px; text-align: center;">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($enrollments as $enrollment)
+                            <tr>
+                                <td><strong>{{ $enrollment->id }}</strong></td>
+                                <td>
+                                    <strong>{{ $enrollment->student ? $enrollment->student->name : 'N/A' }}</strong>
+                                </td>
+                                <td>
+                                    <span class="email-text">
+                                        {{ $enrollment->student ? $enrollment->student->email : 'N/A' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="course-title"
+                                        title="{{ $enrollment->course ? $enrollment->course->title : 'N/A' }}">
+                                        {{ $enrollment->course ? $enrollment->course->title : 'N/A' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if($enrollment->course && $enrollment->course->image)
+                                        <img src="{{ asset('uploads/courses/' . $enrollment->course->image) }}"
+                                            alt="{{ $enrollment->course->title }}" class="course-thumbnail">
+                                    @else
+                                        <div class="avatar-placeholder">
+                                            <i class="bi bi-book"></i>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <strong>{{ $enrollment->course && $enrollment->course->instructor ? $enrollment->course->instructor->name : 'N/A' }}</strong>
+                                </td>
+                                <td>
+                                    <span class="badge-date">
+                                        {{ $enrollment->created_at->format('M d, Y') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('admin.enrollments.edit', $enrollment->id) }}" class="btn-action-edit"
+                                            title="Edit">
+                                            <i class="bi bi-pencil" style="color: #04317aff; font-size: 1.1rem;"></i>
+                                        </a>
+
+                                        <!-- Delete Button -->
+                                        <form action="{{ route('admin.enrollments.destroy', $enrollment->id) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this enrollment?');"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-action-delete" title="Delete">
+                                                <i class="bi bi-trash" style="color: #ef4444; font-size: 1.1rem;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

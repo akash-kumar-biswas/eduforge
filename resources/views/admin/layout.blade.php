@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -177,13 +178,153 @@
             padding: 30px;
             min-height: 100vh;
             background: #f5f5f5;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Mobile Menu Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: #04317aff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu-toggle:hover {
+            background: #032558;
+        }
+
+        /* Overlay for mobile menu */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1001;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+                padding: 20px 15px;
+                padding-top: 70px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .logout-section {
+                position: relative;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 15px 10px;
+                padding-top: 70px;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
+
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            /* Make tables responsive */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-wrapper {
+                padding: 10px 8px;
+                padding-top: 65px;
+            }
+
+            .sidebar {
+                width: 260px;
+            }
+
+            .mobile-menu-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 1.3rem;
+            }
+
+            /* Stack cards on mobile */
+            .row>[class*='col-'] {
+                margin-bottom: 1rem;
+            }
+
+            /* Reduce font sizes for mobile */
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .card-title {
+                font-size: 0.95rem;
+            }
+
+            /* Make buttons full width on mobile */
+            .btn {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Mobile Menu Toggle Button -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <!-- Logo/Header Section -->
         <div class="sidebar-header">
             <h4><i class="bi bi-mortarboard-fill"></i> EDUFORGE</h4>
@@ -268,6 +409,42 @@
         $(document).ready(function () {
             $('#instructors-table').DataTable({
                 "ordering": true
+            });
+
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            // Toggle sidebar on button click
+            mobileMenuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+
+            // Close sidebar when clicking overlay
+            sidebarOverlay.addEventListener('click', function () {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+
+            // Close sidebar when clicking a menu link on mobile
+            const menuLinks = document.querySelectorAll('.sidebar .nav-link');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth <= 992) {
+                        sidebar.classList.remove('active');
+                        sidebarOverlay.classList.remove('active');
+                    }
+                });
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 992) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
             });
         });
     </script>
