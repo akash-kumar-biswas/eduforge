@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - EduForge</title>
+    <title>Instructor Login - EduForge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
@@ -188,6 +188,58 @@
             transform: translateY(0);
         }
 
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .remember-me label {
+            font-size: 14px;
+            color: var(--text-dark);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .additional-links {
+            margin-top: 20px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .additional-links p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0 0 10px 0;
+        }
+
+        .additional-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .additional-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .additional-links .divider {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+
         .login-footer {
             text-align: center;
             margin-top: 30px;
@@ -239,9 +291,9 @@
             <!-- Header -->
             <div class="login-header">
                 <div class="logo">
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="bi bi-person-badge"></i>
                 </div>
-                <h1>EduForge Admin</h1>
+                <h1>EduForge Instructor</h1>
                 <p>Sign in to your account</p>
             </div>
 
@@ -261,7 +313,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('admin.login.submit') }}">
+                <form method="POST" action="{{ route('instructor.login.submit') }}">
                     @csrf
 
                     <!-- Email -->
@@ -270,8 +322,11 @@
                         <div class="input-wrapper">
                             <i class="bi bi-envelope-fill input-icon"></i>
                             <input type="email" class="form-control" id="email" name="email"
-                                placeholder="admin@eduforge.com" value="{{ old('email') }}" required autofocus>
+                                placeholder="instructor@eduforge.com" value="{{ old('email') }}" required autofocus>
                         </div>
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <!-- Password -->
@@ -283,6 +338,15 @@
                                 placeholder="Enter your password" required>
                             <i class="bi bi-eye-fill password-toggle" id="togglePassword"></i>
                         </div>
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
                     </div>
 
                     <!-- Submit Button -->
@@ -290,6 +354,11 @@
                         Sign In
                     </button>
                 </form>
+
+                <!-- Additional Links -->
+                <div class="additional-links">
+                    <p>Don't have an account? <a href="{{ route('instructor.register') }}">Create an Account</a></p>
+                </div>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - EduForge</title>
+    <title>Instructor Register - EduForge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
@@ -34,19 +34,19 @@
             padding: 20px;
         }
 
-        .login-container {
+        .register-container {
             width: 100%;
             max-width: 420px;
         }
 
-        .login-card {
+        .register-card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
 
-        .login-header {
+        .register-header {
             padding: 40px 30px 30px;
             text-align: center;
             background: white;
@@ -70,19 +70,19 @@
             color: white;
         }
 
-        .login-header h1 {
+        .register-header h1 {
             font-size: 24px;
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 8px;
         }
 
-        .login-header p {
+        .register-header p {
             color: var(--text-muted);
             font-size: 14px;
         }
 
-        .login-body {
+        .register-body {
             padding: 30px;
         }
 
@@ -165,7 +165,7 @@
             color: #667eea;
         }
 
-        .btn-login {
+        .btn-register {
             width: 100%;
             height: 48px;
             background: linear-gradient(135deg, #1d318dff 0%, #110a9eff 100%);
@@ -179,41 +179,67 @@
             margin-top: 8px;
         }
 
-        .btn-login:hover {
+        .btn-register:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-login:active {
+        .btn-register:active {
             transform: translateY(0);
         }
 
-        .login-footer {
+        .additional-links {
+            margin-top: 20px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .additional-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .additional-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .register-footer {
             text-align: center;
             margin-top: 30px;
             color: black;
             font-size: 15px;
         }
 
-        .login-footer a {
-            color: white;
+        .register-footer a {
+            color: black;
             text-decoration: none;
             font-weight: 600;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
             transition: border-color 0.2s;
-            color: black;
         }
 
-        .login-footer a:hover {
-            border-bottom-color: white;
+        .register-footer a:hover {
+            border-bottom-color: black;
+        }
+
+        .text-danger {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 4px;
+            display: block;
         }
 
         @media (max-width: 480px) {
-            .login-header {
+            .register-header {
                 padding: 30px 20px 20px;
             }
 
-            .login-body {
+            .register-body {
                 padding: 24px 20px;
             }
 
@@ -226,7 +252,7 @@
                 font-size: 24px;
             }
 
-            .login-header h1 {
+            .register-header h1 {
                 font-size: 22px;
             }
         }
@@ -234,19 +260,19 @@
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="login-card">
+    <div class="register-container">
+        <div class="register-card">
             <!-- Header -->
-            <div class="login-header">
+            <div class="register-header">
                 <div class="logo">
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="bi bi-person-badge"></i>
                 </div>
-                <h1>EduForge Admin</h1>
-                <p>Sign in to your account</p>
+                <h1>Join as Instructor</h1>
+                <p>Create your instructor account</p>
             </div>
 
             <!-- Body -->
-            <div class="login-body">
+            <div class="register-body">
                 @if(session('error'))
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-circle-fill"></i>
@@ -261,8 +287,21 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('admin.login.submit') }}">
+                <form method="POST" action="{{ route('instructor.register.submit') }}">
                     @csrf
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label class="form-label" for="name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-person-fill input-icon"></i>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Enter your full name" value="{{ old('name') }}" required autofocus>
+                        </div>
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
 
                     <!-- Email -->
                     <div class="form-group">
@@ -270,8 +309,11 @@
                         <div class="input-wrapper">
                             <i class="bi bi-envelope-fill input-icon"></i>
                             <input type="email" class="form-control" id="email" name="email"
-                                placeholder="admin@eduforge.com" value="{{ old('email') }}" required autofocus>
+                                placeholder="instructor@eduforge.com" value="{{ old('email') }}" required>
                         </div>
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <!-- Password -->
@@ -280,28 +322,58 @@
                         <div class="input-wrapper">
                             <i class="bi bi-lock-fill input-icon"></i>
                             <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Enter your password" required>
+                                placeholder="Enter password (min 6 characters)" required>
                             <i class="bi bi-eye-fill password-toggle" id="togglePassword"></i>
+                        </div>
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label class="form-label" for="password_confirmation">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-lock-fill input-icon"></i>
+                            <input type="password" class="form-control" id="password_confirmation"
+                                name="password_confirmation" placeholder="Confirm your password" required>
+                            <i class="bi bi-eye-fill password-toggle" id="toggleConfirmPassword"></i>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="btn-login">
-                        Sign In
+                    <button type="submit" class="btn-register">
+                        Create Account
                     </button>
                 </form>
+
+                <!-- Additional Links -->
+                <div class="additional-links">
+                    <a href="{{ route('instructor.login') }}">Already have an account? Sign in</a>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Password toggle
+        // Password toggle for password field
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
 
         togglePassword.addEventListener('click', function () {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
+            this.classList.toggle('bi-eye-fill');
+            this.classList.toggle('bi-eye-slash-fill');
+        });
+
+        // Password toggle for confirm password field
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPasswordInput = document.getElementById('password_confirmation');
+
+        toggleConfirmPassword.addEventListener('click', function () {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
             this.classList.toggle('bi-eye-fill');
             this.classList.toggle('bi-eye-slash-fill');
         });

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Instructor Dashboard')</title>
 
     <!-- Bootstrap + Icons -->
@@ -13,97 +14,392 @@
     <link href="{{ asset('css/instructor.css') }}" rel="stylesheet">
 
     <style>
-        /* Fixed Sidebar */
-        .instructor-sidebar {
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Sidebar - Same as Admin */
+        .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             width: 260px;
             height: 100vh;
-            /* background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); */
-            padding: 1rem;
+            background: #ffffff;
+            border-right: 1px solid #e0e0e0;
+            padding: 0;
             overflow-y: auto;
             z-index: 1000;
         }
 
-        .instructor-sidebar .nav-link.active {
-            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-            color: white;
-            border-radius: 8px;
+        /* Scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
         }
 
-        /* Main content shifted right to accommodate sidebar */
-        .instructor-content {
+        .sidebar::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #b0b0b0;
+        }
+
+        /* Sidebar Header - Dark Navy Blue */
+        .sidebar-header {
+            background: #04317aff;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #032558;
+        }
+
+        .sidebar-header h4 {
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0.3rem 0 0 0;
+            font-size: 0.75rem;
+        }
+
+        /* Navigation Menu */
+        .sidebar-nav {
+            padding: 1rem 0;
+            list-style: none;
+        }
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+            color: #6b7280;
+        }
+
+        .sidebar .nav-link:hover {
+            background: #f3f4f6;
+            color: #04317aff;
+        }
+
+        .sidebar .nav-link:hover i {
+            color: #04317aff;
+        }
+
+        .sidebar .nav-link.active {
+            background: #04317aff;
+            color: white;
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        /* Menu Section Divider */
+        .menu-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 1rem 1.5rem;
+        }
+
+        .menu-label {
+            color: #9ca3af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Logout Button */
+        .logout-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: #ffffff;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .logout-section .nav-link {
+            color: #ef4444;
+            background: #fef2f2;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .logout-section .nav-link:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .logout-section .nav-link i {
+            color: #ef4444;
+        }
+
+        .logout-section .nav-link:hover i {
+            color: #dc2626;
+        }
+
+        /* Main content */
+        .content-wrapper {
             margin-left: 260px;
             padding: 30px;
             min-height: 100vh;
-            background: #f8f9fa;
+            background: #f5f5f5;
+            transition: margin-left 0.3s ease;
         }
 
-        /* Ensure logout stays at bottom */
-        .instructor-sidebar .mt-auto {
-            margin-top: auto !important;
+        /* Mobile Menu Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: #04317aff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu-toggle:hover {
+            background: #032558;
+        }
+
+        /* Overlay for mobile menu */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1001;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+                padding: 20px 15px;
+                padding-top: 70px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .logout-section {
+                position: relative;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 15px 10px;
+                padding-top: 70px;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-wrapper {
+                padding: 10px 8px;
+                padding-top: 65px;
+            }
+
+            .sidebar {
+                width: 260px;
+            }
+
+            .mobile-menu-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <div class="instructor-sidebar d-flex flex-column text-white">
-            <div class="sidebar-header mb-4 text-center">
-                <h4 class="fw-bold"><i class="bi bi-person-badge"></i> EDUFORGE</h4>
-                <p class="small">Instructor Panel</p>
-            </div>
+    <!-- Mobile Menu Toggle Button -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="bi bi-list"></i>
+    </button>
 
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a href="{{ route('instructor.dashboard') }}"
-                        class="nav-link {{ Request::is('instructor/dashboard') ? 'active' : '' }}">
-                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="{{ route('instructor.courses') }}"
-                        class="nav-link {{ Request::is('instructor/courses*') ? 'active' : '' }}">
-                        <i class="bi bi-book me-2"></i> My Courses
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="{{ route('instructor.enrollments') }}"
-                        class="nav-link {{ Request::is('instructor/enrollments*') ? 'active' : '' }}">
-                        <i class="bi bi-journal-check me-2"></i> Enrollments
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="{{ route('instructor.instructors') }}"
-                        class="nav-link {{ Request::is('instructor/instructors*') ? 'active' : '' }}">
-                        <i class="bi bi-people me-2"></i> Instructors
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="{{ route('instructor.profile') }}"
-                        class="nav-link {{ Request::is('instructor/profile*') ? 'active' : '' }}">
-                        <i class="bi bi-person-circle me-2"></i> Profile
-                    </a>
-                </li>
-            </ul>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-            <div class="mt-auto pt-3 border-top border-light">
-                <a href="{{ route('instructor.logout') }}" class="nav-link text-danger fw-bold">
-                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Logo/Header Section -->
+        <div class="sidebar-header">
+            <h4><i class="bi bi-person-badge"></i> EDUFORGE</h4>
+            <p>Instructor Panel</p>
+        </div>
+
+        <!-- Navigation Menu -->
+        <ul class="nav flex-column sidebar-nav">
+            <!-- Main Menu Label -->
+            <div class="menu-label">Main Menu</div>
+
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a href="{{ route('instructor.dashboard') }}"
+                    class="nav-link {{ Request::is('instructor/dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
                 </a>
-            </div>
-        </div>
+            </li>
 
-        <!-- Content -->
-        <div class="instructor-content flex-grow-1">
-            @yield('content')
+            <!-- My Courses -->
+            <li class="nav-item">
+                <a href="{{ route('instructor.courses') }}"
+                    class="nav-link {{ Request::is('instructor/courses*') ? 'active' : '' }}">
+                    <i class="bi bi-book"></i>
+                    <span>My Courses</span>
+                </a>
+            </li>
+
+            <!-- Enrollments -->
+            <li class="nav-item">
+                <a href="{{ route('instructor.enrollments') }}"
+                    class="nav-link {{ Request::is('instructor/enrollments*') ? 'active' : '' }}">
+                    <i class="bi bi-journal-check"></i>
+                    <span>Enrollments</span>
+                </a>
+            </li>
+
+            <!-- Menu Divider -->
+            <div class="menu-divider"></div>
+            <div class="menu-label">Management</div>
+
+            <!-- Instructors -->
+            <li class="nav-item">
+                <a href="{{ route('instructor.instructors') }}"
+                    class="nav-link {{ Request::is('instructor/instructors*') ? 'active' : '' }}">
+                    <i class="bi bi-people"></i>
+                    <span>Instructors</span>
+                </a>
+            </li>
+
+            <!-- Profile -->
+            <li class="nav-item">
+                <a href="{{ route('instructor.profile') }}"
+                    class="nav-link {{ Request::is('instructor/profile*') ? 'active' : '' }}">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Logout Section -->
+        <div class="logout-section">
+            <a class="nav-link d-flex align-items-center" href="{{ route('instructor.logout') }}">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                <span>Logout</span>
+            </a>
         </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        @yield('content')
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        // Toggle sidebar on button click
+        mobileMenuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking overlay
+        sidebarOverlay.addEventListener('click', function () {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Close sidebar when clicking a menu link on mobile
+        const menuLinks = document.querySelectorAll('.sidebar .nav-link');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>

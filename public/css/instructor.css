@@ -1,0 +1,176 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Sidebar */
+.instructor-sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #2e3a59 0%, #1c2541 100%);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-sidebar .sidebar-header h4 {
+    color: #fff;
+}
+
+.instructor-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.instructor-sidebar .nav-link:hover,
+.instructor-sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.instructor-sidebar .nav-link i {
+    font-size: 1.2rem;
+}
+
+/* Content area */
+.instructor-content {
+    background: #f9fafc;
+    min-height: 100vh;
+}
+
+/* Cards on dashboard */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card h4 {
+    color: #1c2541;
+}
+
+
+/* Table hover highlight */
+table.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Rounded avatar border */
+table img.rounded-circle {
+    border: 2px solid #667eea;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Course Cards */
+.course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.course-card .card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.course-card .card-body {
+    padding: 1.25rem;
+}
+
+.course-card .card-title {
+    font-weight: 600;
+    color: #1c2541;
+    margin-bottom: 0.75rem;
+}
+
+.course-card .card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #f8f9fa;
+}
+
+/* Course Meta */
+.course-meta {
+    font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form styling */
+.form-label {
+    color: #1c2541;
+    margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 0.625rem 0.875rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Image preview */
+.img-thumbnail {
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+}
+
+/* Enrollment page */
+.stats-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.stats-card .card-body {
+    padding: 1.5rem 1rem;
+}
+
+.student-avatar {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border: 2px solid rgba(102, 126, 234, 0.35);
+}
+
+.placeholder-avatar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
