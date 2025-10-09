@@ -522,8 +522,3 @@
         });
     </script>
 @endsection
-                }
-                }
-            }
-        });
-    </script>
