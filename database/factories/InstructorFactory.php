@@ -16,6 +16,7 @@ class InstructorFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->numerify('+880##########'),
             'bio' => $this->faker->paragraph(),
             'image' => null,
             'status' => rand(0, 1),

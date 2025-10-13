@@ -404,7 +404,7 @@
                             <td>
                                 @if($course->type == 'paid')
                                     <span class="badge-price">
-                                        ${{ number_format($course->price, 2) }}
+                                        ৳{{ number_format($course->price, 2) }}
                                     </span>
                                 @else
                                     <span class="badge-price" style="background: #f0fdf4; color: #10b981;">

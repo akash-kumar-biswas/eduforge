@@ -15,6 +15,7 @@ class StudentFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->numerify('+880##########'),
             'date_of_birth' => $this->faker->date(),
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
             'image' => null,

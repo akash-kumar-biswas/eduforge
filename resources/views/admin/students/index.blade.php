@@ -302,6 +302,7 @@
                         <th style="width: 80px;">Avatar</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th>Gender</th>
                         <th>Country</th>
                         <th style="width: 100px;">Status</th>
@@ -324,6 +325,7 @@
                             </td>
                             <td><strong>{{ $student->name }}</strong></td>
                             <td class="text-muted">{{ $student->email }}</td>
+                            <td class="text-muted">{{ $student->phone ?? 'N/A' }}</td>
                             <td>
                                 <span class="badge-gender">
                                     @if($student->gender == 'male')

@@ -278,6 +278,7 @@
                             <th style="width: 80px;">Avatar</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Phone</th>
                             <th>Bio</th>
                             <th style="width: 100px;">Status</th>
                             <th style="width: 120px; text-align: center;">Actions</th>
@@ -299,6 +300,7 @@
                                 </td>
                                 <td><strong>{{ $instructor->name }}</strong></td>
                                 <td class="text-muted">{{ $instructor->email }}</td>
+                                <td class="text-muted">{{ $instructor->phone ?? 'N/A' }}</td>
                                 <td>
                                     <span class="bio-text" title="{{ $instructor->bio }}">
                                         {{ $instructor->bio ?? 'No bio' }}

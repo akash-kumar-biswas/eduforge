@@ -16,6 +16,8 @@
 /public/build
 /public/hot
 /public/storage
+/public/uploads/students/*
+!/public/uploads/students/.gitkeep
 /storage/*.key
 /storage/pail
 /vendor

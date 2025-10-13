@@ -246,6 +246,7 @@ class InstructorController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:instructors,email,' . $instructor->id,
+            'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string|max:1000',
             'password' => 'nullable|string|min:6|confirmed',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
@@ -253,6 +254,7 @@ class InstructorController extends Controller
 
         $instructor->name = $request->name;
         $instructor->email = $request->email;
+        $instructor->phone = $request->phone;
         $instructor->bio = $request->bio;
 
         // Handle image upload
@@ -312,6 +314,7 @@ class InstructorController extends Controller
             'difficulty' => 'required|in:beginner,intermediate,advanced',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
             'content_url' => 'nullable|url|max:500',
+            'video' => 'nullable|mimes:mp4,avi,mov,wmv,flv,mkv|max:512000', // 500MB max (or use 1024000 for 1GB, 2048000 for 2GB)
             'status' => 'required|in:0,1,2',
         ]);
 
@@ -336,6 +339,14 @@ class InstructorController extends Controller
             $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('uploads/courses'), $imageName);
             $data['image'] = $imageName;
+        }
+
+        // Handle video upload
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('uploads/videos'), $videoName);
+            $data['video_path'] = $videoName;
         }
 
         Course::create($data);
@@ -369,6 +380,7 @@ class InstructorController extends Controller
             'difficulty' => 'required|in:beginner,intermediate,advanced',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
             'content_url' => 'nullable|url|max:500',
+            'video' => 'nullable|mimes:mp4,avi,mov,wmv,flv,mkv|max:512000', // 500MB max (or use 1024000 for 1GB, 2048000 for 2GB)
             'status' => 'required|in:0,1,2',
         ]);
 
@@ -400,6 +412,20 @@ class InstructorController extends Controller
             $data['image'] = $imageName;
         }
 
+        // Handle video upload
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('uploads/videos'), $videoName);
+
+            // Delete old video if exists
+            if ($course->video_path && file_exists(public_path('uploads/videos/' . $course->video_path))) {
+                unlink(public_path('uploads/videos/' . $course->video_path));
+            }
+
+            $data['video_path'] = $videoName;
+        }
+
         $course->update($data);
 
         return redirect()->route('instructor.courses')->with('success', 'Course updated successfully!');
@@ -415,6 +441,11 @@ class InstructorController extends Controller
         // Delete image if exists
         if ($course->image && file_exists(public_path('uploads/courses/' . $course->image))) {
             unlink(public_path('uploads/courses/' . $course->image));
+        }
+
+        // Delete video if exists
+        if ($course->video_path && file_exists(public_path('uploads/videos/' . $course->video_path))) {
+            unlink(public_path('uploads/videos/' . $course->video_path));
         }
 
         $course->delete();

@@ -242,7 +242,7 @@
             <div class="col-xl-6">
                 <div class="stats-card">
                     <div class="stats-label">Total Revenue</div>
-                    <div class="stats-value text-blue">${{ number_format($totalRevenue, 2) }}</div>
+                    <div class="stats-value text-blue">৳{{ number_format($totalRevenue, 2) }}</div>
                     <div class="row mt-3 pt-3" style="border-top: 1px solid #f1f5f9;">
                         <div class="col-6">
                             <small class="text-muted d-block">Total Payments</small>
@@ -251,7 +251,7 @@
                         <div class="col-6">
                             <small class="text-muted d-block">Avg. Transaction</small>
                             <strong class="text-dark">
-                                ${{ App\Models\Payment::count() > 0 ? number_format($totalRevenue / App\Models\Payment::count(), 2) : '0.00' }}
+                                ৳{{ App\Models\Payment::count() > 0 ? number_format($totalRevenue / App\Models\Payment::count(), 2) : '0.00' }}
                             </strong>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <div class="stats-label">This Month Revenue</div>
-                            <div class="stats-value text-green">${{ number_format($thisMonthRevenue, 2) }}</div>
+                            <div class="stats-value text-green">৳{{ number_format($thisMonthRevenue, 2) }}</div>
                         </div>
                         <span class="badge bg-blue-light badge-clean">{{ date('F Y') }}</span>
                     </div>
@@ -407,7 +407,7 @@
                                             @if($course->type == 'free')
                                                 <span class="badge bg-green-light badge-clean">Free</span>
                                             @else
-                                                <span class="badge bg-orange-light badge-clean">${{ number_format($course->price, 2) }}</span>
+                                                <span class="badge bg-orange-light badge-clean">৳{{ number_format($course->price, 2) }}</span>
                                             @endif
                                         </div>
 

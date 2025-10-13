@@ -19,6 +19,7 @@ class Course extends Model
         'difficulty',
         'image',
         'content_url',
+        'video_path',
         'status',
     ];
 

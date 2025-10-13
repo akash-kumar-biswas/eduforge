@@ -103,6 +103,7 @@
                                                     <th>#</th>
                                                     <th>Student</th>
                                                     <th>Email</th>
+                                                    <th>Phone</th>
                                                     <th>Enrolled On</th>
                                                 </tr>
                                             </thead>
@@ -125,6 +126,7 @@
                                                             </div>
                                                         </td>
                                                         <td>{{ $enrollment->student->email ?? 'N/A' }}</td>
+                                                        <td>{{ $enrollment->student->phone ?? 'N/A' }}</td>
                                                         <td>{{ $enrollment->created_at->format('M d, Y') }}</td>
                                                     </tr>
                                                 @endforeach

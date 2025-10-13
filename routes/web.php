@@ -8,11 +8,6 @@ use App\Http\Controllers\AdminController;
 // ADMIN PANEL ROUTES
 // ========================
 
-// Home page
-Route::get('/', function () {
-    return redirect()->route('admin.login');
-});
-
 
 //Start Admin
 
@@ -36,7 +31,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 
 
 
-// For Instructor 
+// Start Instructor 
 
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InstructorAuthController;
@@ -69,3 +64,65 @@ Route::middleware('instructor.auth')->group(function () {
 });
 
 //End Instructor
+
+
+//start Student
+use App\Http\Controllers\Student\LoginController;
+use App\Http\Controllers\Student\RegisterController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ContactController;
+
+// Homepage
+Route::get('/', function () {
+    return view('home');
+});
+
+// About Page
+Route::get('/about', function () {
+    return view('about');
+});
+
+// Contact Page
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// Courses (Public)
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
+
+// Student Routes
+Route::prefix('student')->name('student.')->group(function () {
+
+    // Guest routes (login/register)
+    Route::middleware('guest:student')->group(function () {
+        Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+        Route::post('register', [RegisterController::class, 'register']);
+        Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::post('login', [LoginController::class, 'login']);
+    });
+
+    // Authenticated student routes
+    Route::middleware('auth:student')->group(function () {
+        Route::get('dashboard', [LoginController::class, 'dashboard'])->name('dashboard');
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+        Route::get('profile', [LoginController::class, 'profile'])->name('profile');
+        Route::get('profile/edit', [LoginController::class, 'editProfile'])->name('profile.edit');
+        Route::put('profile/update', [LoginController::class, 'updateProfile'])->name('profile.update');
+        Route::get('courses/{course}', [StudentController::class, 'watchCourse'])->name('courses.watch');
+    });
+});
+
+// Cart routes
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{courseId}', [CartController::class, 'add'])->name('cart.add');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+// Payment routes
+Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+
+//end Student

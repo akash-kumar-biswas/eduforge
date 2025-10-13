@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ✅ Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css  " rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/courses.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -49,15 +49,30 @@
         footer h5 {
             color: #fff;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
         footer a {
             color: #bbb;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         footer a:hover {
-            text-decoration: underline;
+            color: #007bff;
+        }
+
+        footer ul li {
+            margin-bottom: 8px;
+        }
+
+        footer .social-icon {
+            transition: all 0.3s ease;
+        }
+
+        footer .social-icon:hover {
+            transform: translateY(-3px);
+            background-color: #0056b3 !important;
         }
 
         .footer-bottom {
@@ -67,6 +82,22 @@
             text-align: center;
             font-size: 14px;
             color: #777;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+
+        .contact-s {
+            background-color: #434548ff !important;
+        }
+
+        .about-s {
+            background-color: #434548ff !important;
+        }
+
+        .browse-c {
+            background-color: #434548ff !important;
         }
     </style>
 </head>
@@ -87,40 +118,42 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/courses') }}">Courses</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
                 </ul>
 
                 <!-- ✅ Search Bar -->
-                <form class="d-flex me-3 search-bar" role="search">
-                    <input class="form-control" type="search" placeholder="Search..." aria-label="Search">
+                <form class="d-flex me-3 search-bar" role="search" id="searchForm">
+                    <input class="form-control s" type="text" id="searchInput" placeholder="Search Courses..."
+                        aria-label="Search" value="{{ request('search') }}">
                 </form>
 
                 <!-- ✅ Conditional Auth Buttons -->
-                @if(session('student_logged_in'))
-                    <div class="dropdown me-2">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            👤 {{ session('student_name') ?? session('student_email') }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Dashboard</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <form action="#" method="POST" class="m-0">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                @else
-                    <a href="#" class="btn btn-outline-light me-2">Sign In</a>
-                    <a href="#" class="btn btn-warning text-dark">Sign Up</a>
-                @endif
+                <div class="d-flex align-items-center">
+                    @auth('student')
+                        <div class="dropdown me-2">
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                👤 {{ Auth::guard('student')->user()->name ?? Auth::guard('student')->user()->email }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                <li><a class="dropdown-item" href="{{ route('student.dashboard') }}">Dashboard</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form action="{{ route('student.logout') }}" method="POST" class="m-0">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <a href="{{ route('student.login') }}" class="btn btn-outline-light me-2">Sign In</a>
+                    @endauth
 
-                <a href="{{ url('/cart') }}" class="btn btn-outline-light ms-2">🛒 Cart</a>
+                    <a href="{{ url('/cart') }}" class="btn btn-outline-light ms-2">🛒 Cart</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -130,6 +163,12 @@
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('info'))
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{ session('info') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -161,31 +200,52 @@
                     </ul>
                 </div>
 
-                <!-- Newsletter -->
+                <!-- Why Choose Us -->
                 <div class="col-md-3 mb-4">
-                    <h5>Newsletter</h5>
-                    <p>Subscribe to get our latest courses and offers.</p>
-                    <form>
-                        <input type="email" class="form-control mb-2" placeholder="Enter your email">
-                        <button type="submit" class="btn btn-warning w-100">Subscribe</button>
-                    </form>
+                    <h5>Why Choose Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Expert Instructors
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Lifetime Access</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Certificates</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>24/7 Support</li>
+                    </ul>
                 </div>
 
                 <!-- Contact Info -->
                 <div class="col-md-3 mb-4">
                     <h5>Contact Info</h5>
-                    <p>📍 123 Main Street, Dhaka</p>
-                    <p>📞 +880 1234 567 890</p>
-                    <p>📧 contact@eduforge.com</p>
+                    <p class="mb-2"><i class="bi bi-geo-alt-fill text-primary me-2"></i>123 Main Street, Dhaka-1000</p>
+                    <p class="mb-2"><i class="bi bi-telephone-fill text-primary me-2"></i>+880 1234 567 890</p>
+                    <p class="mb-2"><i class="bi bi-envelope-fill text-primary me-2"></i>contact@eduforge.com</p>
                 </div>
 
                 <!-- Social Links -->
                 <div class="col-md-3 mb-4">
                     <h5>Follow Us</h5>
-                    <a href="#" class="d-block">🌐 Facebook</a>
-                    <a href="#" class="d-block">🐦 Twitter</a>
-                    <a href="#" class="d-block">📸 Instagram</a>
-                    <a href="#" class="d-block">💼 LinkedIn</a>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="#"
+                            class="social-icon text-white bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#"
+                            class="social-icon text-white bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;" title="Twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="social-icon text-white bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="social-icon text-white bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                    <p class="mt-3 mb-0 small">Connect with us on social media for updates and learning tips.</p>
                 </div>
             </div>
 
@@ -196,7 +256,58 @@
     </footer>
 
     <!-- ✅ Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js  "></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ Real-time Search Script -->
+    <!-- ✅ Real-time Search Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const searchForm = document.getElementById('searchForm');
+
+            // Store the original page URL (where the user started searching from)
+            let originalPageUrl = window.location.href;
+
+            // If we're already on courses page with search, don't override the original URL
+            if (!window.location.href.includes('/courses?search=')) {
+                sessionStorage.setItem('searchOriginPage', originalPageUrl);
+            }
+
+            // Prevent form submission
+            if (searchForm) {
+                searchForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                });
+            }
+
+            if (searchInput) {
+                let searchTimeout;
+
+                searchInput.addEventListener('input', function () {
+                    clearTimeout(searchTimeout);
+
+                    const searchTerm = this.value.trim();
+
+                    // Debounce: wait 300ms after user stops typing
+                    searchTimeout = setTimeout(function () {
+                        if (searchTerm.length > 0) {
+                            // Redirect to courses page with search parameter
+                            window.location.href = '{{ route("courses.index") }}?search=' + encodeURIComponent(searchTerm);
+                        } else {
+                            // If search is cleared, go back to original page
+                            const returnUrl = sessionStorage.getItem('searchOriginPage') || '{{ route("courses.index") }}';
+                            sessionStorage.removeItem('searchOriginPage'); // Clean up
+                            window.location.href = returnUrl;
+                        }
+                    }, 300);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
+```
 </body>
 
 </html>
