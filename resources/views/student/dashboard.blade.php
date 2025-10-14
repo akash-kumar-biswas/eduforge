@@ -245,18 +245,20 @@
         }
 
         .watch-course-btn {
-            width: 100%;
+            flex: 1;
             padding: 12px;
             background: transparent;
             border: 2px solid #4facfe;
             color: #4facfe;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             border-radius: 10px;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             text-decoration: none;
+            text-align: center;
+            display: inline-block;
         }
 
         .watch-course-btn:hover {
@@ -265,6 +267,36 @@
             border-color: transparent;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .complete-course-btn {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: 2px solid #43e97b;
+            color: #43e97b;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .complete-course-btn:hover {
+            background: linear-gradient(135deg, #43e97b 0%, #38d39f 100%);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 12px;
+            width: 100%;
         }
 
         /* Empty State */
@@ -312,54 +344,68 @@
         }
 
         .purchase-left {
-            display: flex;
-            gap: 20px;
             flex: 1;
-            align-items: flex-start;
+            max-width: 60%;
         }
 
-        .purchase-course-image {
-            width: 150px;
-            height: 100px;
+        .purchase-courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .purchase-course-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .purchase-course-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .purchase-course-thumb {
+            width: 80px;
+            height: 60px;
             border-radius: 8px;
             object-fit: cover;
             flex-shrink: 0;
         }
 
-        .purchase-course-info {
+        .purchase-course-details {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .purchase-course-title {
-            font-size: 1.1rem;
-            font-weight: 700;
+        .purchase-course-name {
+            font-size: 1rem;
+            font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin: 0;
+            line-height: 1.3;
         }
 
-        .purchase-instructor {
+        .purchase-course-instructor {
             color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 0;
+            font-size: 0.85rem;
+            margin: 0;
         }
 
-        .purchase-instructor strong {
+        .purchase-course-instructor strong {
             color: #34495e;
         }
 
-        .purchase-price-section {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-            min-width: 140px;
-        }
-
-        .purchase-price {
-            font-size: 1.5rem;
+        .purchase-course-price {
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: #43e97b;
+            margin-top: auto;
         }
 
         .purchase-divider {
@@ -373,30 +419,29 @@
             flex-direction: column;
             gap: 15px;
             min-width: 280px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .purchase-date {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
         }
 
         .purchase-detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .purchase-detail-row:last-child {
             border-bottom: none;
-        }
-
-        .purchase-detail-row:nth-child(odd) {
-            background: #f8f9fa;
-            padding: 8px 0;
-            border-radius: 4px;
         }
 
         .purchase-detail-label {
@@ -409,12 +454,20 @@
             font-size: 0.9rem;
             color: #2c3e50;
             font-weight: 600;
+            word-break: break-word;
+        }
+
+        .purchase-detail-value.purchase-price {
+            color: #43e97b;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
 
         .purchase-txnid {
             font-family: 'Courier New', monospace;
             font-size: 0.85rem;
             color: #4facfe;
+            word-break: break-all;
         }
 
         .close-btn {
@@ -442,10 +495,10 @@
         }
 
         /* ========================================
-               📱 RESPONSIVE STYLES
-               ======================================== */
+                   📱 RESPONSIVE STYLES
+                   ======================================== */
 
-        /* Tablets and Below (992px) */
+        /* Large Tablets (992px and below) */
         @media (max-width: 992px) {
             .dashboard-header {
                 padding: 20px 0;
@@ -481,6 +534,30 @@
 
             .course-content {
                 padding: 20px;
+            }
+
+            /* Purchase History - Large Tablet */
+            .purchase-card {
+                padding: 25px;
+                gap: 25px;
+            }
+
+            .purchase-left {
+                max-width: 55%;
+            }
+
+            .purchase-right {
+                min-width: 240px;
+                padding: 18px;
+            }
+
+            .purchase-course-thumb {
+                width: 75px;
+                height: 55px;
+            }
+
+            .purchase-course-name {
+                font-size: 0.95rem;
             }
         }
 
@@ -566,23 +643,42 @@
                 min-width: 60px;
             }
 
-            /* Purchase History Responsive */
+            /* Purchase History Responsive - Tablet */
             .purchase-card {
                 flex-direction: column;
                 gap: 20px;
+                padding: 20px;
             }
 
             .purchase-left {
-                flex-direction: column;
-            }
-
-            .purchase-course-image {
+                max-width: 100%;
                 width: 100%;
-                height: 180px;
             }
 
-            .purchase-price-section {
-                align-items: flex-start;
+            .purchase-courses-list {
+                gap: 12px;
+            }
+
+            .purchase-course-item {
+                padding: 12px;
+                gap: 12px;
+            }
+
+            .purchase-course-thumb {
+                width: 70px;
+                height: 55px;
+            }
+
+            .purchase-course-name {
+                font-size: 0.95rem;
+            }
+
+            .purchase-course-instructor {
+                font-size: 0.8rem;
+            }
+
+            .purchase-course-price {
+                font-size: 1rem;
             }
 
             .purchase-divider {
@@ -591,11 +687,24 @@
 
             .purchase-right {
                 width: 100%;
+                min-width: auto;
+                padding: 15px;
+            }
+
+            .purchase-date {
+                font-size: 0.95rem;
+            }
+
+            .purchase-detail-row {
+                padding: 10px 0;
             }
 
             .close-btn {
                 top: 10px;
                 right: 10px;
+                width: 28px;
+                height: 28px;
+                font-size: 1.3rem;
             }
 
             /* Profile Tab */
@@ -688,9 +797,85 @@
                 min-width: 50px;
             }
 
-            /* Purchase Cards Mobile */
-            .purchase-course-image {
-                height: 150px;
+            /* Course Actions - Mobile */
+            .course-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .watch-course-btn,
+            .complete-course-btn {
+                width: 100%;
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            /* Purchase History - Mobile */
+            .purchase-card {
+                padding: 15px;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+
+            .purchase-courses-list {
+                gap: 10px;
+            }
+
+            .purchase-course-item {
+                padding: 10px;
+                gap: 10px;
+                border-radius: 8px;
+            }
+
+            .purchase-course-thumb {
+                width: 60px;
+                height: 45px;
+            }
+
+            .purchase-course-details {
+                gap: 3px;
+            }
+
+            .purchase-course-name {
+                font-size: 0.9rem;
+                line-height: 1.2;
+            }
+
+            .purchase-course-instructor {
+                font-size: 0.75rem;
+            }
+
+            .purchase-course-price {
+                font-size: 0.95rem;
+            }
+
+            .purchase-right {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .purchase-date {
+                font-size: 0.9rem;
+                margin-bottom: 8px;
+                padding-bottom: 8px;
+            }
+
+            .purchase-detail-row {
+                padding: 8px 0;
+                font-size: 0.85rem;
+            }
+
+            .purchase-detail-label,
+            .purchase-detail-value {
+                font-size: 0.85rem;
+            }
+
+            .close-btn {
+                width: 26px;
+                height: 26px;
+                font-size: 1.2rem;
+                top: 8px;
+                right: 8px;
             }
 
             /* Profile Tab */
@@ -738,11 +923,94 @@
                 height: 120px;
             }
 
+            /* Purchase History - Extra Small */
+            .purchase-card {
+                padding: 12px;
+                gap: 12px;
+                border-radius: 10px;
+            }
+
+            .purchase-courses-list {
+                gap: 8px;
+            }
+
+            .purchase-course-item {
+                padding: 8px;
+                gap: 8px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .purchase-course-thumb {
+                width: 100%;
+                height: 80px;
+                max-width: 120px;
+            }
+
+            .purchase-course-details {
+                width: 100%;
+                align-items: center;
+            }
+
+            .purchase-course-name {
+                font-size: 0.85rem;
+                text-align: center;
+            }
+
+            .purchase-course-instructor {
+                font-size: 0.7rem;
+                text-align: center;
+            }
+
+            .purchase-course-price {
+                font-size: 0.9rem;
+                margin-top: 5px;
+            }
+
+            .purchase-right {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .purchase-date {
+                font-size: 0.85rem;
+            }
+
+            .purchase-detail-row {
+                padding: 6px 0;
+                font-size: 0.8rem;
+            }
+
+            .purchase-detail-label,
+            .purchase-detail-value {
+                font-size: 0.8rem;
+            }
+
+            .close-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 1.1rem;
+            }
+
             .profile-img,
             .profile-placeholder {
                 width: 80px;
                 height: 80px;
                 font-size: 1.5rem;
+            }
+
+            /* Course Actions - Extra Small */
+            .watch-course-btn,
+            .complete-course-btn {
+                padding: 8px;
+                font-size: 0.85rem;
+                letter-spacing: 0.3px;
+            }
+
+            .watch-course-btn i,
+            .complete-course-btn i {
+                display: none;
             }
         }
 
@@ -858,9 +1126,14 @@
                                         </div>
                                     </div>
 
-                                    <a href="{{ route('student.courses.watch', $course->id) }}" class="watch-course-btn">
-                                        WATCH COURSE
-                                    </a>
+                                    <div class="course-actions">
+                                        <a href="{{ route('student.courses.watch', $course->id) }}" class="watch-course-btn">
+                                            <i class="bi bi-play-circle me-1"></i> WATCH
+                                        </a>
+                                        <button onclick="completeCourse(this, {{ $course->id }})" class="complete-course-btn">
+                                            <i class="bi bi-check-circle me-1"></i> COMPLETE
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -880,46 +1153,46 @@
                         <div class="purchase-card">
                             <button class="close-btn" onclick="this.parentElement.remove()">×</button>
 
-                            <!-- Left Section: Course Info -->
+                            <!-- Left Section: All Courses with Individual Prices -->
                             <div class="purchase-left">
-                                @php
-                                    $firstItem = $purchaseGroup->items->first();
-                                @endphp
-                                <img src="{{ $firstItem && $firstItem->course && $firstItem->course->image ? asset('uploads/courses/' . $firstItem->course->image) : 'https://via.placeholder.com/150x100/667eea/ffffff?text=Course' }}"
-                                    alt="{{ $firstItem && $firstItem->course ? $firstItem->course->title : 'Course' }}"
-                                    class="purchase-course-image">
+                                <div class="purchase-courses-list">
+                                    @foreach($purchaseGroup->items as $item)
+                                        <div class="purchase-course-item">
+                                            <img src="{{ $item->course && $item->course->image ? asset('uploads/courses/' . $item->course->image) : 'https://via.placeholder.com/80x60/667eea/ffffff?text=Course' }}"
+                                                alt="{{ $item->course ? $item->course->title : 'Course' }}"
+                                                class="purchase-course-thumb">
 
-                                <div class="purchase-course-info">
-                                    <h3 class="purchase-course-title">
-                                        {{ $firstItem && $firstItem->course ? $firstItem->course->title : 'Course Title' }}
-                                    </h3>
-                                    <p class="purchase-instructor">
-                                        By
-                                        <strong>{{ $firstItem && $firstItem->course && $firstItem->course->instructor ? $firstItem->course->instructor->name : 'Instructor' }}</strong>
-                                    </p>
+                                            <div class="purchase-course-details">
+                                                <h4 class="purchase-course-name">
+                                                    {{ $item->course ? $item->course->title : 'Course Title' }}
+                                                </h4>
+                                                <p class="purchase-course-instructor">
+                                                    By
+                                                    <strong>{{ $item->course && $item->course->instructor ? $item->course->instructor->name : 'Instructor' }}</strong>
+                                                </p>
+                                                <div class="purchase-course-price">৳{{ number_format($item->price, 2) }}</div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                            </div>
-
-                            <!-- Price Section -->
-                            <div class="purchase-price-section">
-                                <div class="purchase-price">৳{{ number_format($purchaseGroup->total_price, 2) }}</div>
                             </div>
 
                             <!-- Divider -->
                             <div class="purchase-divider"></div>
 
-                            <!-- Right Section: Purchase Details -->
+                            <!-- Right Section: Purchase Summary -->
                             <div class="purchase-right">
                                 <div class="purchase-date">{{ $purchaseGroup->created_at->format('Y-m-d H:i:s') }}</div>
 
                                 <div class="purchase-detail-row">
-                                    <span class="purchase-detail-label">Total</span>
-                                    <span class="purchase-detail-value">{{ number_format($purchaseGroup->total_price) }}</span>
+                                    <span class="purchase-detail-label">Total Courses</span>
+                                    <span class="purchase-detail-value">{{ $purchaseGroup->total_courses }}</span>
                                 </div>
 
                                 <div class="purchase-detail-row">
-                                    <span class="purchase-detail-label">Total Courses</span>
-                                    <span class="purchase-detail-value">{{ $purchaseGroup->total_courses }}</span>
+                                    <span class="purchase-detail-label">Total Amount</span>
+                                    <span
+                                        class="purchase-detail-value purchase-price">৳{{ number_format($purchaseGroup->total_price, 2) }}</span>
                                 </div>
 
                                 <div class="purchase-detail-row">
@@ -1098,4 +1371,82 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Complete Course Functionality
+        let completedCourses = JSON.parse(localStorage.getItem('completedCourses_{{ $student->id }}')) || [];
+
+        function completeCourse(button, courseId) {
+            // Check if already completed
+            if (completedCourses.includes(courseId)) {
+                return;
+            }
+
+            // Add to completed courses
+            completedCourses.push(courseId);
+            localStorage.setItem('completedCourses_{{ $student->id }}', JSON.stringify(completedCourses));
+
+            // Find and hide the course card with animation
+            const courseCard = button.closest('.course-card');
+            courseCard.style.transition = 'all 0.5s ease';
+            courseCard.style.opacity = '0';
+            courseCard.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                courseCard.style.display = 'none';
+
+                // Update completed count
+                updateCompletedCount();
+
+                // Check if no courses left
+                checkEmptyState();
+            }, 500);
+        }
+
+        function updateCompletedCount() {
+            const completedCountElement = document.querySelector('.stat-icon.completed').nextElementSibling.querySelector('h3');
+            const currentCount = parseInt(completedCountElement.textContent);
+            completedCountElement.textContent = currentCount + 1;
+
+            // Add animation
+            completedCountElement.style.transition = 'all 0.3s ease';
+            completedCountElement.style.transform = 'scale(1.2)';
+            completedCountElement.style.color = '#43e97b';
+
+            setTimeout(() => {
+                completedCountElement.style.transform = 'scale(1)';
+                completedCountElement.style.color = '';
+            }, 300);
+        }
+
+        function checkEmptyState() {
+            const coursesGrid = document.querySelector('.courses-grid');
+            const visibleCourses = coursesGrid.querySelectorAll('.course-card:not([style*="display: none"])');
+
+            if (visibleCourses.length === 0) {
+                coursesGrid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1 / -1;">
+                            <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
+                            <h3>🎉 Congratulations!</h3>
+                            <p>You've completed all your enrolled courses!</p>
+                        </div>
+                    `;
+            }
+        }
+
+        // Hide already completed courses on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            completedCourses.forEach(courseId => {
+                const courseCards = document.querySelectorAll('.course-card');
+                courseCards.forEach(card => {
+                    const completeButton = card.querySelector('.complete-course-btn');
+                    if (completeButton && completeButton.onclick.toString().includes(courseId)) {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            checkEmptyState();
+        });
+    </script>
 @endsection
