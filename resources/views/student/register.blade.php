@@ -3,6 +3,43 @@
 @section('title', 'Register')
 
 @section('content')
+    <style>
+        /* Register Page Responsive Styles */
+        @media (max-width: 768px) {
+            .col-md-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section.py-5 {
+                padding: 2rem 0 !important;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .col-md-6 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .form-label {
+                font-size: 0.95rem;
+            }
+
+            .form-control {
+                font-size: 0.95rem;
+            }
+
+            .btn {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+
     <section class="py-5">
         <div class="container">
             <div class="row justify-content-center">

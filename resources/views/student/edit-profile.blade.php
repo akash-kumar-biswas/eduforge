@@ -3,6 +3,93 @@
 @section('title', 'Edit Profile')
 
 @section('content')
+    <style>
+        /* Edit Profile Page Responsive Styles */
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 1.5rem !important;
+            }
+
+            .card-header h3 {
+                font-size: 1.3rem;
+            }
+
+            h5 {
+                font-size: 1.1rem;
+            }
+
+            .form-control.w-50 {
+                width: 100% !important;
+            }
+
+            #imagePreview,
+            #imagePlaceholder {
+                width: 120px !important;
+                height: 120px !important;
+            }
+
+            #imagePlaceholder .fs-1 {
+                font-size: 2.5rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .py-5 {
+                padding: 2rem 0 !important;
+            }
+
+            .card-body {
+                padding: 1rem !important;
+            }
+
+            .card-header {
+                padding: 0.75rem 1rem;
+            }
+
+            .card-header h3 {
+                font-size: 1.1rem;
+            }
+
+            h5 {
+                font-size: 1rem;
+            }
+
+            .form-label {
+                font-size: 0.95rem;
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 0.95rem;
+            }
+
+            #imagePreview,
+            #imagePlaceholder {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            #imagePlaceholder .fs-1 {
+                font-size: 2rem !important;
+            }
+
+            .btn {
+                font-size: 0.95rem;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            small {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-10 mx-auto">

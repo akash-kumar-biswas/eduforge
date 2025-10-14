@@ -2,13 +2,17 @@
    Custom Styles for Eduguard Home
    ===================== */
 
-/* 🌟 Hero Banner */
+/* 🌟 Hero Banner - Fully Responsive */
 .main-banner {
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: #fff;
   min-height: 85vh;
   position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 .main-banner::after {
@@ -28,6 +32,43 @@
   flex-grow: 1;
   padding: 12px 20px;
   font-size: 16px;
+  width: 100%;
+}
+
+/* Mobile Responsive for Hero Banner */
+@media (max-width: 768px) {
+  .main-banner {
+    min-height: 60vh;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .banner-search {
+    flex-direction: column !important;
+  }
+  
+  .banner-search input {
+    margin-bottom: 1rem !important;
+    margin-right: 0 !important;
+  }
+  
+  .banner-search button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-banner {
+    min-height: 50vh;
+  }
+  
+  .main-banner h1 {
+    font-size: 1.75rem !important;
+  }
+  
+  .main-banner .lead {
+    font-size: 1rem !important;
+  }
 }
 
 /* 🧩 Feature Cards */
@@ -116,4 +157,73 @@
   0% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0); }
+}
+
+/* ========================================
+   🎯 COMPREHENSIVE RESPONSIVE STYLES
+   ======================================== */
+
+/* Tablet Responsive */
+@media (max-width: 992px) {
+  .cardFeature {
+    margin-bottom: 1rem;
+  }
+  
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .shape-one, .shape-two {
+    display: none;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .cardFeature h5 {
+    font-size: 1.1rem;
+  }
+  
+  .cardFeature p {
+    font-size: 0.9rem;
+  }
+  
+  .contact-s h2 {
+    font-size: 1.5rem;
+  }
+  
+  .contact-s .lead {
+    font-size: 1rem;
+  }
+  
+  .contact-s .btn-lg {
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 576px) {
+  .cardFeature {
+    padding: 1.5rem !important;
+  }
+  
+  .feature-icon {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .feature-icon i {
+    font-size: 1.25rem !important;
+  }
+  
+  section.py-5 {
+    padding: 2rem 0 !important;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }

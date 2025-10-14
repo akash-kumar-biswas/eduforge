@@ -2,6 +2,7 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     border: none;
     border-radius: 10px;
+    width: 100%;
 }
 
 .course-card:hover {
@@ -14,4 +15,65 @@
     border-top-right-radius: 10px;
     height: 200px;
     object-fit: cover;
+    width: 100%;
+}
+
+/* ========================================
+   🎯 RESPONSIVE COURSES PAGE
+   ======================================== */
+
+/* Tablet Responsive */
+@media (max-width: 992px) {
+    .course-card img {
+        height: 180px;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .course-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .course-card img {
+        height: 160px;
+    }
+    
+    .course-card .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .course-card .card-text {
+        font-size: 0.9rem;
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 576px) {
+    .course-card img {
+        height: 150px;
+    }
+    
+    .course-card .card-body {
+        padding: 1rem;
+    }
+    
+    .course-card .btn-sm {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    /* Filter sidebar responsive */
+    .form-label {
+        font-size: 0.9rem;
+    }
+    
+    .form-select, .btn {
+        font-size: 0.9rem;
+    }
 }

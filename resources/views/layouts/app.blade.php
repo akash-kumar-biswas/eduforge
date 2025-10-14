@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/courses.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/student.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
@@ -38,6 +39,30 @@
 
         .search-bar {
             max-width: 250px;
+        }
+
+        /* Fix navbar vertical alignment */
+        .navbar-nav {
+            margin-bottom: 0 !important;
+        }
+
+        .navbar-collapse .d-flex {
+            margin-bottom: 0 !important;
+        }
+
+        @media (max-width: 991px) {
+            .search-bar {
+                margin-bottom: 1rem;
+                margin-right: 0 !important;
+            }
+
+            .navbar-nav {
+                margin-bottom: 0.75rem;
+            }
+
+            .navbar-collapse .d-flex {
+                margin-top: 0.5rem;
+            }
         }
 
         footer {
@@ -115,7 +140,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/courses') }}">Courses</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/about') }}">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>

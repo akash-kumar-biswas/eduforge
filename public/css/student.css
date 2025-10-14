@@ -1,0 +1,369 @@
+/* ========================================
+   🎓 STUDENT PANEL RESPONSIVE STYLES
+   ======================================== */
+
+/* Dashboard Cards */
+.dashboard-card {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Section */
+.profile-section {
+    width: 100%;
+}
+
+.profile-avatar {
+    max-width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Course Cards in Dashboard */
+.course-item {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.course-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    flex-wrap: wrap;
+}
+
+.nav-tabs .nav-link {
+    white-space: nowrap;
+}
+
+/* ========================================
+   📱 RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Large Tablets (992px and below) */
+@media (max-width: 992px) {
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .profile-avatar {
+        max-width: 120px;
+        height: 120px;
+    }
+    
+    .course-item img {
+        height: 180px;
+    }
+}
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+    /* Dashboard Layout */
+    .row > [class*="col-"] {
+        margin-bottom: 1rem;
+    }
+    
+    /* Profile Avatar */
+    .profile-avatar {
+        max-width: 100px;
+        height: 100px;
+        margin: 0 auto 1rem;
+        display: block;
+    }
+    
+    /* Course Cards */
+    .course-item {
+        width: 100%;
+    }
+    
+    .course-item img {
+        height: 160px;
+    }
+    
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.5rem;
+        white-space: nowrap;
+    }
+    
+    /* Navigation Tabs */
+    .nav-tabs {
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    .nav-tabs .nav-link {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .btn-lg {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    /* Cards */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    /* Forms */
+    .form-label {
+        font-size: 0.95rem;
+    }
+    
+    .form-control {
+        font-size: 0.95rem;
+    }
+}
+
+/* Mobile Phones (576px and below) */
+@media (max-width: 576px) {
+    /* Container Spacing */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 1.75rem !important;
+    }
+    
+    h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    h3 {
+        font-size: 1.25rem !important;
+    }
+    
+    h4 {
+        font-size: 1.1rem !important;
+    }
+    
+    p, .lead {
+        font-size: 0.95rem !important;
+    }
+    
+    /* Profile Avatar */
+    .profile-avatar {
+        max-width: 80px;
+        height: 80px;
+    }
+    
+    /* Course Cards */
+    .course-item img {
+        height: 140px;
+    }
+    
+    .course-item .card-body {
+        padding: 0.75rem;
+    }
+    
+    .course-item .card-title {
+        font-size: 1rem;
+    }
+    
+    .course-item .card-text {
+        font-size: 0.85rem;
+    }
+    
+    /* Badges */
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.45rem 0.9rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.7rem;
+    }
+    
+    .btn-group .btn {
+        width: auto;
+        margin-bottom: 0;
+    }
+    
+    /* Navigation Tabs */
+    .nav-tabs {
+        flex-direction: column;
+        border-bottom: none;
+    }
+    
+    .nav-tabs .nav-item {
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+    
+    .nav-tabs .nav-link {
+        border-radius: 0.25rem;
+        text-align: center;
+    }
+    
+    /* Tab Content Responsive */
+    .tab-content {
+        padding: 1rem 0;
+    }
+    
+    /* Tables */
+    .table {
+        font-size: 0.8rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Forms */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-control {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.35rem;
+    }
+    
+    /* Cards */
+    .card {
+        border-radius: 0.5rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    /* Sections Spacing */
+    section {
+        padding: 1.5rem 0 !important;
+    }
+    
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .my-5 {
+        margin-top: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+}
+
+/* Extra Small Devices (400px and below) */
+@media (max-width: 400px) {
+    h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    h2 {
+        font-size: 1.3rem !important;
+    }
+    
+    .profile-avatar {
+        max-width: 70px;
+        height: 70px;
+    }
+    
+    .course-item img {
+        height: 120px;
+    }
+    
+    .btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* ========================================
+   🎨 UTILITY CLASSES FOR RESPONSIVENESS
+   ======================================== */
+
+/* Full width on mobile */
+.mobile-full-width {
+    width: 100%;
+}
+
+@media (min-width: 577px) {
+    .mobile-full-width {
+        width: auto;
+    }
+}
+
+/* Hide on mobile */
+@media (max-width: 576px) {
+    .hide-mobile {
+        display: none !important;
+    }
+}
+
+/* Show only on mobile */
+.show-mobile {
+    display: none !important;
+}
+
+@media (max-width: 576px) {
+    .show-mobile {
+        display: block !important;
+    }
+}
+
+/* Text alignment responsive */
+@media (max-width: 768px) {
+    .text-md-center {
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .text-sm-center {
+        text-align: center !important;
+    }
+}

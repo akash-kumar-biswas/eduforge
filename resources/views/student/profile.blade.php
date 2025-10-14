@@ -3,6 +3,118 @@
 @section('title', 'Student Profile')
 
 @section('content')
+    <style>
+        /* Profile Page Responsive Styles */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .profile-placeholder {
+            width: 150px;
+            height: 150px;
+        }
+
+        @media (max-width: 768px) {
+
+            .profile-img,
+            .profile-placeholder {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-placeholder .fs-1 {
+                font-size: 2.5rem !important;
+            }
+
+            .col-md-2 {
+                margin-bottom: 1rem;
+            }
+
+            .col-md-7 h2 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+
+            .col-md-7 p {
+                text-align: center;
+                font-size: 0.95rem;
+            }
+
+            .col-md-3 {
+                text-align: center !important;
+            }
+
+            .btn-lg {
+                width: 100%;
+                font-size: 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .card-header h5 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .py-5 {
+                padding: 2rem 0 !important;
+            }
+
+            .profile-img,
+            .profile-placeholder {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile-placeholder .fs-1 {
+                font-size: 2rem !important;
+            }
+
+            .col-md-7 h2 {
+                font-size: 1.25rem;
+            }
+
+            .col-md-7 p {
+                font-size: 0.9rem;
+            }
+
+            .btn-lg {
+                font-size: 0.95rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-header {
+                padding: 0.75rem 1rem;
+            }
+
+            .card-header h5 {
+                font-size: 1rem;
+            }
+
+            .info-item label {
+                font-size: 0.85rem;
+            }
+
+            .info-item p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+
     <div class="container py-5">
         <!-- Profile Header -->
         <div class="row mb-4">

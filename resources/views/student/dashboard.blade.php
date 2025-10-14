@@ -441,16 +441,74 @@
             transform: rotate(90deg);
         }
 
-        /* Responsive */
+        /* ========================================
+               📱 RESPONSIVE STYLES
+               ======================================== */
+
+        /* Tablets and Below (992px) */
+        @media (max-width: 992px) {
+            .dashboard-header {
+                padding: 20px 0;
+            }
+
+            .student-avatar {
+                width: 70px;
+                height: 70px;
+            }
+
+            .student-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .stat-info h3 {
+                font-size: 1.6rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+            }
+
+            .course-image {
+                height: 180px;
+            }
+
+            .course-content {
+                padding: 20px;
+            }
+        }
+
+        /* Mobile (768px) */
         @media (max-width: 768px) {
+            .dashboard-header {
+                padding: 15px 0;
+                margin-bottom: 20px;
+            }
+
             .courses-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .stats-badges {
                 flex-direction: column;
                 gap: 15px;
                 align-items: flex-start;
+                width: 100%;
+            }
+
+            .stat-badge {
+                width: 100%;
+                justify-content: space-between;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 10px;
             }
 
             .student-profile {
@@ -458,14 +516,54 @@
                 text-align: center;
             }
 
+            .student-info {
+                width: 100%;
+            }
+
             .nav-tabs {
                 overflow-x: auto;
                 flex-wrap: nowrap;
+                padding: 0 15px;
+                -webkit-overflow-scrolling: touch;
             }
 
             .nav-tabs .nav-link {
                 white-space: nowrap;
                 padding: 15px 20px;
+                font-size: 0.95rem;
+            }
+
+            .dashboard-nav {
+                margin-bottom: 20px;
+            }
+
+            /* Course Cards Mobile */
+            .course-card {
+                border-radius: 10px;
+            }
+
+            .course-image {
+                height: 160px;
+            }
+
+            .course-content {
+                padding: 15px;
+            }
+
+            .course-title {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+
+            .course-instructor {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .instructor-avatar-wrapper {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
             }
 
             /* Purchase History Responsive */
@@ -498,6 +596,153 @@
             .close-btn {
                 top: 10px;
                 right: 10px;
+            }
+
+            /* Profile Tab */
+            .profile-img,
+            .profile-placeholder {
+                width: 120px;
+                height: 120px;
+                font-size: 2.5rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .info-item {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Small Mobile (576px) */
+        @media (max-width: 576px) {
+            .dashboard-header {
+                padding: 15px 0;
+            }
+
+            .student-avatar {
+                width: 60px;
+                height: 60px;
+            }
+
+            .student-info h2 {
+                font-size: 1.25rem;
+            }
+
+            .student-info p {
+                font-size: 0.9rem;
+            }
+
+            .stat-badge {
+                padding: 12px;
+            }
+
+            .stat-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+
+            .stat-info h3 {
+                font-size: 1.4rem;
+            }
+
+            .stat-info p {
+                font-size: 0.85rem;
+            }
+
+            .nav-tabs {
+                padding: 0 10px;
+            }
+
+            .nav-tabs .nav-link {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .courses-grid {
+                gap: 15px;
+            }
+
+            .course-image {
+                height: 140px;
+            }
+
+            .course-content {
+                padding: 12px;
+            }
+
+            .course-title {
+                font-size: 1rem;
+            }
+
+            .course-instructor {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .instructor-avatar-wrapper {
+                width: 50px;
+                height: 50px;
+                min-width: 50px;
+            }
+
+            /* Purchase Cards Mobile */
+            .purchase-course-image {
+                height: 150px;
+            }
+
+            /* Profile Tab */
+            .profile-img,
+            .profile-placeholder {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+
+            .card-header h5 {
+                font-size: 1rem;
+            }
+
+            .card-body {
+                padding: 0.75rem;
+            }
+
+            .info-item label {
+                font-size: 0.85rem;
+            }
+
+            .info-item p {
+                font-size: 0.9rem;
+            }
+
+            /* Button adjustments */
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Extra Small (400px) */
+        @media (max-width: 400px) {
+            .student-info h2 {
+                font-size: 1.1rem;
+            }
+
+            .stat-info h3 {
+                font-size: 1.2rem;
+            }
+
+            .course-image {
+                height: 120px;
+            }
+
+            .profile-img,
+            .profile-placeholder {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
             }
         }
 
@@ -775,7 +1020,8 @@
                                 <div class="info-item mb-3">
                                     <label class="text-muted small mb-1">Gender</label>
                                     <p class="fw-semibold mb-0">
-                                        {{ $student->gender ? ucfirst($student->gender) : 'Not set' }}</p>
+                                        {{ $student->gender ? ucfirst($student->gender) : 'Not set' }}
+                                    </p>
                                 </div>
                                 <hr>
                                 <div class="info-item mb-3">

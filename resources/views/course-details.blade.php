@@ -3,6 +3,78 @@
 @section('title', $course->title)
 
 @section('content')
+    <style>
+        /* Course Details Responsive Styles */
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .card-img-top {
+                max-height: 300px;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .d-flex.gap-3 {
+                flex-direction: column;
+                gap: 1rem !important;
+            }
+
+            .d-flex.gap-3 h2 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .badge {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .card-img-top {
+                max-height: 220px;
+            }
+
+            .card-title {
+                font-size: 1.25rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .badge {
+                font-size: 0.75rem;
+                padding: 0.35rem 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .btn-lg {
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            h2.text-success {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
