@@ -23,14 +23,40 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
+        \Log::info('Student registration attempt', ['email' => $request->email]);
+
         $student = Student::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::guard('student')->login($student);
+        \Log::info('Student created successfully', ['id' => $student->id, 'email' => $student->email]);
 
-        return redirect()->route('student.dashboard');
+        // Login the student
+        Auth::guard('student')->login($student, true); // true = remember
+
+        // Regenerate session for security
+        $request->session()->regenerate();
+
+        // Save session explicitly
+        $request->session()->save();
+
+        // Detailed debug logging to help diagnose redirect/session issues
+        $cookieName = config('session.cookie');
+        $sessionId = $request->session()->getId();
+        $cookieValue = $_COOKIE[$cookieName] ?? null;
+
+        \Log::info('Student logged in', [
+            'id' => $student->id,
+            'authenticated' => Auth::guard('student')->check(),
+            'session_id' => $sessionId,
+            'cookie_name' => $cookieName,
+            'cookie_value' => $cookieValue,
+        ]);
+
+        \Log::info('Redirecting to dashboard', ['route' => route('student.dashboard')]);
+
+        return redirect()->route('student.dashboard')->with('success', 'Welcome to EduForge! Your account has been created successfully.');
     }
 }

@@ -129,7 +129,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug((string) env('APP_NAME', 'laravel')).'-session'
+        Str::slug((string) env('APP_NAME', 'laravel')) . '-session'
     ),
 
     /*
@@ -169,7 +169,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // Ensure boolean value for secure flag (env values are strings),
+    // and default to false for local development.
+    'secure' => filter_var(env('SESSION_SECURE_COOKIE', false), FILTER_VALIDATE_BOOLEAN),
 
     /*
     |--------------------------------------------------------------------------
@@ -199,7 +201,13 @@ return [
     |
     */
 
-    'same_site' => env('SESSION_SAME_SITE', 'lax'),
+    // Normalize same_site: allow explicit 'null' string in .env to mean null
+    // (useful when you want to unset the attribute). Default to 'lax'.
+    'same_site' => (
+        ($v = env('SESSION_SAME_SITE', 'lax')) === 'null'
+        ? null
+        : $v
+    ),
 
     /*
     |--------------------------------------------------------------------------

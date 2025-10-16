@@ -23,10 +23,29 @@ class LoginController extends Controller
 
         $remember = $request->has('remember');
 
+        \Log::info('Student login attempt', ['email' => $credentials['email']]);
+
         if (Auth::guard('student')->attempt($credentials, $remember)) {
+            \Log::info('Student login successful', ['email' => $credentials['email']]);
             $request->session()->regenerate();
+            $request->session()->save(); // Ensure session is saved
+
+            // Log session and cookie info for debugging
+            $cookieName = config('session.cookie');
+            $sessionId = $request->session()->getId();
+            $cookieValue = $_COOKIE[$cookieName] ?? null;
+            \Log::info('Post-login session info', [
+                'email' => $credentials['email'],
+                'session_id' => $sessionId,
+                'cookie_name' => $cookieName,
+                'cookie_value' => $cookieValue,
+                'guard_check' => Auth::guard('student')->check(),
+            ]);
+
             return redirect()->intended(route('student.dashboard'));
         }
+
+        \Log::warning('Student login failed', ['email' => $credentials['email']]);
 
         return back()->withErrors([
             'email' => 'Invalid credentials.',

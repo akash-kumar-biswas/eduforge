@@ -470,6 +470,43 @@
             word-break: break-all;
         }
 
+        /* Payment Method Badges */
+        .payment-method-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-method-badge.payment-bkash {
+            background: linear-gradient(135deg, #E2136E 0%, #c91062 100%);
+            box-shadow: 0 2px 8px rgba(226, 19, 110, 0.3);
+        }
+
+        .payment-method-badge.payment-nagad {
+            background: linear-gradient(135deg, #ED1C24 0%, #d41820 100%);
+            box-shadow: 0 2px 8px rgba(237, 28, 36, 0.3);
+        }
+
+        .payment-method-badge.payment-rocket {
+            background: linear-gradient(135deg, #8B3A8B 0%, #762f76 100%);
+            box-shadow: 0 2px 8px rgba(139, 58, 139, 0.3);
+        }
+
+        .payment-method-badge.payment-upay {
+            background: linear-gradient(135deg, #00A8E1 0%, #0092c7 100%);
+            box-shadow: 0 2px 8px rgba(0, 168, 225, 0.3);
+        }
+
+        .payment-method-badge.payment-manual {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            box-shadow: 0 2px 8px rgba(149, 165, 166, 0.3);
+        }
+
         .close-btn {
             position: absolute;
             top: 15px;
@@ -495,8 +532,8 @@
         }
 
         /* ========================================
-                   📱 RESPONSIVE STYLES
-                   ======================================== */
+                       📱 RESPONSIVE STYLES
+                       ======================================== */
 
         /* Large Tablets (992px and below) */
         @media (max-width: 992px) {
@@ -1196,8 +1233,17 @@
                                 </div>
 
                                 <div class="purchase-detail-row">
-                                    <span class="purchase-detail-label">Payment Type</span>
-                                    <span class="purchase-detail-value purchase-txnid">{{ $purchaseGroup->txnid ?? 'N/A' }}</span>
+                                    <span class="purchase-detail-label">Payment Method</span>
+                                    <span class="purchase-detail-value">
+                                        @if($purchaseGroup->payment && $purchaseGroup->payment->method)
+                                            <span
+                                                class="payment-method-badge payment-{{ strtolower($purchaseGroup->payment->method) }}">
+                                                {{ strtoupper($purchaseGroup->payment->method) }}
+                                            </span>
+                                        @else
+                                            <span class="text-muted">N/A</span>
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -1425,12 +1471,12 @@
 
             if (visibleCourses.length === 0) {
                 coursesGrid.innerHTML = `
-                        <div class="empty-state" style="grid-column: 1 / -1;">
-                            <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
-                            <h3>🎉 Congratulations!</h3>
-                            <p>You've completed all your enrolled courses!</p>
-                        </div>
-                    `;
+                            <div class="empty-state" style="grid-column: 1 / -1;">
+                                <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
+                                <h3>🎉 Congratulations!</h3>
+                                <p>You've completed all your enrolled courses!</p>
+                            </div>
+                        `;
             }
         }
 

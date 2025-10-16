@@ -96,13 +96,15 @@ Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.sh
 // Student Routes
 Route::prefix('student')->name('student.')->group(function () {
 
-    // Guest routes (login/register)
+    // Guest routes (login/register) - only for GET routes
     Route::middleware('guest:student')->group(function () {
         Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-        Route::post('register', [RegisterController::class, 'register']);
         Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-        Route::post('login', [LoginController::class, 'login']);
     });
+
+    // POST routes for registration and login (no guest middleware to allow immediate redirect after success)
+    Route::post('register', [RegisterController::class, 'register']);
+    Route::post('login', [LoginController::class, 'login']);
 
     // Authenticated student routes
     Route::middleware('auth:student')->group(function () {
@@ -124,5 +126,17 @@ Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear
 // Payment routes
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
 Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+
+// SSLCOMMERZ Payment Callback Routes (accept both GET and POST)
+Route::match(['get', 'post'], '/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::match(['get', 'post'], '/payment/fail', [PaymentController::class, 'paymentFail'])->name('payment.fail');
+Route::match(['get', 'post'], '/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+Route::post('/payment/ipn', [PaymentController::class, 'paymentIPN'])->name('payment.ipn');
+
+// Public route to complete login after payment (consumes one-time token)
+// token is optional to support gateways that redirect without custom data.
+// Also accept a trailing slash variant used by some gateways to avoid 404s
+Route::match(['get', 'post'], '/payment/complete/', [PaymentController::class, 'completeWithToken']);
+Route::match(['get', 'post'], '/payment/complete/{token?}', [PaymentController::class, 'completeWithToken'])->name('payment.complete');
 
 //end Student
