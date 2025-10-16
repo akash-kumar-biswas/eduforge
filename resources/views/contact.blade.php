@@ -3,13 +3,17 @@
 @section('title', 'Contact Us')
 
 @section('content')
+    <!-- Hero Section -->
+    <section class="py-5 bg-primary text-white about-s">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
+            <p class="lead mb-0">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+    </section>
+
     <!-- Contact Info Section -->
     <section class="py-5">
         <div class="container">
-            <h1 class="mb-4 fw-bold text-center">Contact Us</h1>
-            <p class="text-center text-muted mb-5">Have questions? We'd love to hear from you. Send us a message and we'll
-                respond as soon as possible.</p>
-
             <div class="row g-4 mb-5">
                 <div class="col-md-4">
                     <div class="card h-100 text-center border-0 shadow-sm">

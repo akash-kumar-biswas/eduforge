@@ -90,7 +90,7 @@
         }
     </style>
 
-    <div class="container py-5">
+    <div id="edit-profile" class="container py-5">
         <div class="row">
             <div class="col-lg-10 mx-auto">
                 <div class="card border-0 shadow-sm">
@@ -126,15 +126,15 @@
                                     @if($student->image)
                                         <img id="imagePreview" src="{{ asset('uploads/students/' . $student->image) }}"
                                             alt="Profile" class="rounded-circle"
-                                            style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #007bff;">
+                                            style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #175388ff;">
                                     @else
                                         <div id="imagePlaceholder"
                                             class="rounded-circle d-inline-flex align-items-center justify-content-center bg-primary text-white"
-                                            style="width: 150px; height: 150px; border: 4px solid #007bff;">
+                                            style="width: 150px; height: 150px; border: 4px solid #175388ff;">
                                             <span class="fs-1 fw-bold">{{ strtoupper(substr($student->name, 0, 1)) }}</span>
                                         </div>
                                         <img id="imagePreview" src="" alt="Profile" class="rounded-circle d-none"
-                                            style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #007bff;">
+                                            style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #175388ff;">
                                     @endif
                                 </div>
                                 <input type="file" class="form-control w-50 mx-auto" id="image" name="image"
@@ -299,10 +299,44 @@
             color: #495057;
         }
 
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        /* Make sure this page's focus styles are the deep blue and scoped to the page */
+        #edit-profile .form-control:focus,
+        #edit-profile .form-select:focus {
+            border-color: #175388ff;
+            box-shadow: 0 0 0 0.2rem rgba(23, 83, 136, 0.25);
+        }
+    </style>
+    <style>
+        /* Page-scoped overrides: apply exact #175388ff only inside edit-profile */
+        #edit-profile .card-header.bg-primary,
+        #edit-profile .bg-primary {
+            background-color: #175388ff !important;
+            background-image: none !important;
+            border-color: #175388ff !important;
+            color: #fff !important;
+        }
+
+        #edit-profile .card-header.bg-primary h3,
+        #edit-profile .card-header.bg-primary h3 i {
+            color: #fff !important;
+        }
+
+        #edit-profile .btn-primary {
+            background: linear-gradient(135deg, #175388ff 0%, #114b6eff 100%) !important;
+            border-color: #175388ff !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+
+        #edit-profile .text-primary {
+            color: #175388ff !important;
+        }
+
+        /* Focused form-control inside this page should use the same deep blue */
+        #edit-profile .form-control:focus,
+        #edit-profile .form-select:focus {
+            border-color: #175388ff !important;
+            box-shadow: 0 0 0 0.2rem rgba(23, 83, 136, 0.25) !important;
         }
     </style>
 @endsection

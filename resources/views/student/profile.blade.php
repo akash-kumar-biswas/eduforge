@@ -278,14 +278,14 @@
             width: 150px;
             height: 150px;
             object-fit: cover;
-            border: 4px solid #007bff;
+            border: 4px solid #4facfe;
         }
 
         .profile-placeholder {
             width: 150px;
             height: 150px;
             font-size: 3rem;
-            border: 4px solid #007bff;
+            border: 4px solid #4facfe;
         }
 
         .info-item label {

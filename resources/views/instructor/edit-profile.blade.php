@@ -3,7 +3,40 @@
 @section('title', 'Edit Profile')
 
 @section('content')
-    <div class="container my-5">
+    <style>
+        /* Page-scoped overrides: apply exact #175388ff only inside edit-instructor-profile */
+        #edit-instructor-profile .card-header.bg-primary,
+        #edit-instructor-profile .bg-primary {
+            background-color: #175388ff !important;
+            background-image: none !important;
+            border-color: #175388ff !important;
+            color: #fff !important;
+        }
+
+        #edit-instructor-profile .card-header.bg-primary h3,
+        #edit-instructor-profile .card-header.bg-primary h3 i {
+            color: #fff !important;
+        }
+
+        #edit-instructor-profile .btn-primary {
+            background: linear-gradient(135deg, #175388ff 0%, #114b6eff 100%) !important;
+            border-color: #175388ff !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+
+        #edit-instructor-profile .text-primary {
+            color: #175388ff !important;
+        }
+
+        #edit-instructor-profile .form-control:focus,
+        #edit-instructor-profile .form-select:focus {
+            border-color: #175388ff !important;
+            box-shadow: 0 0 0 0.2rem rgba(23, 83, 136, 0.25) !important;
+        }
+    </style>
+
+    <div id="edit-instructor-profile" class="container my-5">
         <div class="row">
             <div class="col-md-10 mx-auto">
                 <div class="card shadow-sm">
@@ -21,17 +54,15 @@
                                     <div class="mb-3">
                                         @if($instructor->image)
                                             <img src="{{ asset('uploads/instructors/' . $instructor->image) }}"
-                                                alt="Current Profile" id="preview-image"
-                                                class="img-fluid rounded-circle border border-3 border-primary"
-                                                style="width: 150px; height: 150px; object-fit: cover;">
+                                                alt="Current Profile" id="preview-image" class="img-fluid rounded-circle"
+                                                style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #175388ff;">
                                         @else
                                             <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center"
                                                 id="preview-placeholder" style="width: 150px; height: 150px;">
                                                 <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
                                             </div>
-                                            <img src="" alt="Preview" id="preview-image"
-                                                class="img-fluid rounded-circle border border-3 border-primary d-none"
-                                                style="width: 150px; height: 150px; object-fit: cover;">
+                                            <img src="" alt="Preview" id="preview-image" class="img-fluid rounded-circle d-none"
+                                                style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #175388ff;">
                                         @endif
                                     </div>
                                     <input type="file" class="form-control w-50 mx-auto" id="image" name="image"

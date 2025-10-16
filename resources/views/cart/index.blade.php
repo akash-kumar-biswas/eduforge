@@ -115,15 +115,15 @@
         }
 
         .payment-method:hover {
-            border-color: #4facfe;
+            border-color: #175388ff;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.2);
+            box-shadow: 0 4px 12px rgba(23, 83, 136, 0.2);
         }
 
         .payment-method.active {
-            border-color: #4facfe;
+            border-color: #175388ff;
             background: #f0f8ff;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            box-shadow: 0 0 0 3px rgba(23, 83, 136, 0.1);
         }
 
         .payment-method input[type="radio"] {
@@ -166,7 +166,7 @@
         }
 
         .payment-icon.upay {
-            background: #00A8E1;
+            background: #175388ff;
         }
 
         .form-group {
@@ -194,8 +194,8 @@
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            border-color: #175388ff;
+            box-shadow: 0 0 0 3px rgba(23, 83, 136, 0.1);
         }
 
         .payment-info {
@@ -219,7 +219,7 @@
         .payment-number .number {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #4facfe;
+            color: #175388ff;
             letter-spacing: 1px;
         }
 
@@ -278,10 +278,11 @@
             font-weight: 600;
         }
 
+        /* ✅ Updated to match "Complete Purchase" button */
         .proceed-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #43e97b 0%, #38d39f 100%);
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -293,8 +294,9 @@
         }
 
         .proceed-btn:hover {
+            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(67, 233, 123, 0.3);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
         }
 
         .proceed-btn:disabled {
@@ -372,8 +374,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Total Price:</strong></td>
-                                    <td>৳{{ $cartItems->sum(function ($item) {
-                return $item->course->price ?? 0; }) }}</td>
+                                    <td>৳{{ $cartItems->sum(function ($item) { return $item->course->price ?? 0; }) }}</td>
                                 </tr>
                             </table>
                             <button type="button" class="btn btn-success btn-block" onclick="openPaymentModal()">
@@ -430,13 +431,11 @@
                     </div>
 
                     <div class="payment-info">
-                        <!-- Admin Payment Number -->
                         <div class="payment-number">
                             <h4>Personal:</h4>
                             <div class="number">01722197936</div>
                         </div>
 
-                        <!-- QR Code Placeholder -->
                         <div class="qr-code">
                             <div class="qr-placeholder">
                                 <img src="{{ asset('images/QR-Code.png') }}" alt="QR Code"
@@ -445,17 +444,14 @@
                             <div class="scan-text">Scan QR</div>
                         </div>
 
-                        <!-- Price Summary -->
                         <div class="price-summary">
                             <div class="price-row">
                                 <span class="price-label">Total Price:</span>
-                                <span class="price-value">৳{{ $cartItems->sum(function ($item) {
-        return $item->course->price ?? 0; }) }}</span>
+                                <span class="price-value">৳{{ $cartItems->sum(function ($item) { return $item->course->price ?? 0; }) }}</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- User Information -->
                     <div class="form-group">
                         <label>Name:</label>
                         <input type="text" name="name" required placeholder="Enter your name">
@@ -473,21 +469,17 @@
 
                     <div class="form-group">
                         <label>Last 4 Digit of Payment Number:</label>
-                        <input type="text" name="txnid" required placeholder="Enter last 4 digits" maxlength="4"
-                            pattern="[0-9]{4}">
+                        <input type="text" name="txnid" required placeholder="Enter last 4 digits" maxlength="4" pattern="[0-9]{4}">
                     </div>
 
-                    <button type="submit" class="proceed-btn">
-                        Proceed to Payment
-                    </button>
+                    <button type="submit" class="proceed-btn">Proceed to Payment</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        const basePrice = {{ $cartItems->sum(function ($item) {
-        return $item->course->price ?? 0; }) }};
+        const basePrice = {{ $cartItems->sum(function ($item) { return $item->course->price ?? 0; }) }};
 
         function openPaymentModal() {
             document.getElementById('paymentModal').classList.add('active');
@@ -500,26 +492,15 @@
         }
 
         function selectPayment(method) {
-            // Remove active class from all
-            document.querySelectorAll('.payment-method').forEach(el => {
-                el.classList.remove('active');
-            });
-
-            // Add active class to selected
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
             event.currentTarget.classList.add('active');
-
-            // Check the radio button
             event.currentTarget.querySelector('input[type="radio"]').checked = true;
         }
 
-        // Close modal when clicking outside
         document.getElementById('paymentModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closePaymentModal();
-            }
+            if (e.target === this) closePaymentModal();
         });
 
-        // Prevent form submission if payment method not selected
         document.getElementById('paymentForm').addEventListener('submit', function (e) {
             const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
             if (!paymentMethod) {

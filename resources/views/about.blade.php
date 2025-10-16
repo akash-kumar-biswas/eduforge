@@ -16,7 +16,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('frontend/dist/images/Contact/image.jpg') }}" class="img-fluid rounded shadow-lg"
+                    <img src="{{ asset('frontend/dist/images/Contact/image.jpg') }}"
+                        class="img-fluid rounded shadow-lg about-image"
                         alt="EduForge Online Learning">
                 </div>
                 <div class="col-lg-6">
@@ -266,18 +267,6 @@
         </div>
     </section>
 
-    <!-- Call to Action -->
-    <section class="py-5 bg-primary text-white text-center browse-c">
-        <div class="container">
-            <h2 class="fw-bold mb-3">Ready to Start Your Learning Journey?</h2>
-            <p class="lead mb-4">Join thousands of learners worldwide and unlock your potential today.</p>
-            <div class="d-flex gap-3 justify-content-center flex-wrap">
-                <a href="{{ url('/courses') }}" class="btn btn-light btn-lg px-5">Browse Courses</a>
-                <a href="{{ url('/contact') }}" class="btn btn-outline-light btn-lg px-5">Contact Us</a>
-            </div>
-        </div>
-    </section>
-
     <style>
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -286,6 +275,18 @@
         .hover-lift:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* ✅ Move About Page Image 20px Left */
+        .about-image {
+            position: relative;
+            left: -20px;
+        }
+
+        @media (max-width: 768px) {
+            .about-image {
+                left: 0;
+            }
         }
     </style>
 @endsection

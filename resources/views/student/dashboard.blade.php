@@ -30,14 +30,16 @@
             gap: 20px;
         }
 
-        .student-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #4facfe;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-        }
+.student-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #175388ff;
+    box-shadow: 0 4px 15px #175388ff;
+    background-color: #175388ff; /* 🔹 Added this line to match border color */
+}
+
 
         .student-info h2 {
             font-size: 1.75rem;
@@ -76,7 +78,7 @@
 
         .stat-icon.enrolled {
             background: rgba(79, 172, 254, 0.1);
-            color: #4facfe;
+            color: #175388ff;
         }
 
         .stat-icon.completed {
@@ -190,25 +192,26 @@
         }
 
         .course-instructor:hover {
-            border-color: #4facfe;
+            border-color: #175388ff;
             box-shadow: 0 4px 12px rgba(79, 172, 254, 0.1);
         }
 
-        .instructor-avatar-wrapper {
-            width: 80px;
-            height: 80px;
-            min-width: 80px;
-            min-height: 80px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #4facfe;
-            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f0f0f0;
-        }
+.instructor-avatar-wrapper {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #175388ff; /* ✅ Match student avatar border */
+    box-shadow: 0 4px 12px rgba(23, 83, 136, 0.3); /* ✅ Softer tone of the same blue */
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #175388ff; /* ✅ Match the border color */
+}
+
 
         .instructor-avatar {
             width: 100%;
@@ -248,8 +251,8 @@
             flex: 1;
             padding: 12px;
             background: transparent;
-            border: 2px solid #4facfe;
-            color: #4facfe;
+            border: 2px solid #175388ff;
+            color: #175388ff;
             font-weight: 600;
             font-size: 0.95rem;
             border-radius: 10px;
@@ -262,7 +265,7 @@
         }
 
         .watch-course-btn:hover {
-            background: linear-gradient(135deg, #4facfe 0%, #08bac4ff 100%);
+            background: linear-gradient(135deg, #175388ff 0%, #136ebeff 100%);
             color: white;
             border-color: transparent;
             transform: translateY(-2px);
@@ -273,8 +276,8 @@
             flex: 1;
             padding: 12px;
             background: transparent;
-            border: 2px solid #43e97b;
-            color: #43e97b;
+            border: 2px solid #206938ff;
+            color: #206938ff;
             font-weight: 600;
             font-size: 0.95rem;
             border-radius: 10px;
@@ -286,7 +289,7 @@
         }
 
         .complete-course-btn:hover {
-            background: linear-gradient(135deg, #43e97b 0%, #38d39f 100%);
+            background: linear-gradient(135deg, #238142ff 0%, #228a67ff 100%);
             color: white;
             border-color: transparent;
             transform: translateY(-2px);
@@ -430,7 +433,7 @@
             color: #2c3e50;
             margin-bottom: 10px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #4facfe;
+            border-bottom: 2px solid #175388ff;
         }
 
         .purchase-detail-row {
@@ -498,7 +501,7 @@
         }
 
         .payment-method-badge.payment-upay {
-            background: linear-gradient(135deg, #00A8E1 0%, #0092c7 100%);
+            background: linear-gradient(135deg, #175388ff 0%, #136ebeff 100%);
             box-shadow: 0 2px 8px rgba(0, 168, 225, 0.3);
         }
 
@@ -532,8 +535,8 @@
         }
 
         /* ========================================
-                           📱 RESPONSIVE STYLES
-                           ======================================== */
+                               📱 RESPONSIVE STYLES
+                               ======================================== */
 
         /* Large Tablets (992px and below) */
         @media (max-width: 992px) {
@@ -1060,14 +1063,53 @@
             width: 150px;
             height: 150px;
             object-fit: cover;
-            border: 4px solid #4facfe;
+            /* keep visual but scoped below to #profile to avoid affecting other pages */
         }
 
         .profile-placeholder {
             width: 150px;
             height: 150px;
             font-size: 3rem;
-            border: 4px solid #4facfe;
+            /* border/background set in scoped rules for safety */
+        }
+
+        /* Scoped profile-only color: apply exact #4facfe only inside the profile pane */
+        #profile .profile-img {
+            border: 4px solid #175388ff !important;
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.15) !important;
+        }
+
+        /* if the placeholder uses bg-primary, override only within the profile pane */
+        #profile .profile-placeholder {
+            border: 4px solid #175388ff !important;
+            background-color: #175388ff !important;
+            color: #ffffff !important;
+        }
+
+        /* Ensure card headers, utility classes and primary buttons inside the profile pane use the exact blue */
+        #profile .card-header.bg-primary,
+        #profile .bg-primary {
+            background-color: #175388ff !important;
+            background-image: none !important;
+            border-color: #175388ff !important;
+            color: #fff !important;
+        }
+
+        #profile .card-header.bg-primary h5,
+        #profile .card-header.bg-primary h5 i {
+            color: #fff !important;
+        }
+
+        #profile .btn-primary {
+            background: linear-gradient(135deg, #175388ff 0%, #175388ff 100%) !important;
+            border-color: #4facfe !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+
+        /* If any element inside profile uses .text-primary, make it the correct blue */
+        #profile .text-primary {
+            color: #175388ff !important;
         }
 
         .info-item label {
@@ -1086,7 +1128,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="student-profile">
-                        <img src="{{ $student->image ? asset('uploads/students/' . $student->image) : 'https://ui-avatars.com/api/?name=' . urlencode($student->name) . '&size=90&background=4facfe&color=fff' }}"
+<img src="{{ $student->image ? asset('uploads/students/' . $student->image) : 'https://ui-avatars.com/api/?name=' . urlencode($student->name) . '&size=90&background=175388ff&color=fff' }}"
                             alt="{{ $student->name }}" class="student-avatar">
                         <div class="student-info">
                             <h2>{{ $student->name }}</h2>
@@ -1164,8 +1206,13 @@
 
                                     <div class="course-instructor">
                                         <div class="instructor-avatar-wrapper">
-                                            <img src="{{ $course->instructor->image ? asset('uploads/instructors/' . $course->instructor->image) : 'https://ui-avatars.com/api/?name=' . urlencode($course->instructor->name) . '&size=80&background=4facfe&color=fff' }}"
-                                                alt="{{ $course->instructor->name }}" class="instructor-avatar">
+                                            <img 
+    src="{{ $course->instructor->image 
+        ? asset('uploads/instructors/' . $course->instructor->image) 
+        : 'https://ui-avatars.com/api/?name=' . urlencode($course->instructor->name) . '&size=80&background=175388ff&color=fff' }}" 
+    alt="{{ $course->instructor->name }}" 
+    class="instructor-avatar">
+
                                         </div>
                                         <div class="instructor-info">
                                             <div class="instructor-name">{{ $course->instructor->name }}</div>
@@ -1537,12 +1584,12 @@
 
             if (visibleCourses.length === 0) {
                 coursesGrid.innerHTML = `
-                                <div class="empty-state" style="grid-column: 1 / -1;">
-                                    <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
-                                    <h3>🎉 Congratulations!</h3>
-                                    <p>You've completed all your enrolled courses!</p>
-                                </div>
-                            `;
+                                    <div class="empty-state" style="grid-column: 1 / -1;">
+                                        <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
+                                        <h3>🎉 Congratulations!</h3>
+                                        <p>You've completed all your enrolled courses!</p>
+                                    </div>
+                                `;
             }
         }
 
