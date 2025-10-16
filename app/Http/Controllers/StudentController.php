@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -19,7 +20,7 @@ class StudentController extends Controller
         // Get all enrolled courses with instructor info
         $allCourses = $student->courses()
             ->with('instructor')
-            ->withPivot('created_at')
+            ->withPivot(['created_at', 'is_completed'])
             ->get();
 
         // Calculate progress for each course (for now, using random percentage)
@@ -30,8 +31,8 @@ class StudentController extends Controller
         // Get enrolled courses count
         $enrolledCount = $allCourses->count();
 
-        // Get completed courses count (courses with 100% progress)
-        $completedCount = 0; // Replace with actual completed course logic
+        // Completed courses count: use the authoritative students.complete_course column
+        $completedCount = (int) $student->complete_course;
 
         // Get purchase history with grouped payments
         $purchaseHistory = \App\Models\Payment::where('student_id', $student->id)
@@ -126,6 +127,63 @@ class StudentController extends Controller
             'videoUrl' => $videoData['url'],
             'videoMime' => $videoData['mime'],
         ]);
+    }
+
+    /**
+     * AJAX endpoint: mark a course as completed for the authenticated student.
+     * Increments `complete_course` on the students table and creates enrollment
+     * record if missing (idempotent).
+     */
+    public function completeCourseAjax(Course $course)
+    {
+        $student = Auth::guard('student')->user();
+
+        // Log the incoming request so we can debug client/server interactions
+        Log::info('Entered completeCourseAjax', [
+            'student_id' => $student->id ?? null,
+            'course_id' => $course->id ?? null,
+            'method' => request()->method(),
+            'ip' => request()->ip(),
+            'headers' => collect(request()->headers->all())->mapWithKeys(function ($v, $k) {
+                return [$k => $v[0] ?? null]; })->toArray(),
+        ]);
+
+        if (!$student) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        // Ensure the student is enrolled in the course before marking complete
+        $isEnrolled = $student->courses()->where('courses.id', $course->id)->exists();
+        if (!$isEnrolled) {
+            // Optionally auto-enroll? For now, return an error.
+            return response()->json(['error' => 'Not enrolled in this course'], 403);
+        }
+
+        try {
+            $enrollment = \App\Models\Enrollment::firstOrCreate([
+                'student_id' => $student->id,
+                'course_id' => $course->id,
+            ]);
+
+            $wasCompleted = (bool) ($enrollment->is_completed ?? false);
+
+            if (!$wasCompleted) {
+                // mark completed and increment student's counter
+                $enrollment->is_completed = true;
+                $enrollment->save();
+
+                $student->increment('complete_course');
+            }
+
+            return response()->json([
+                'success' => true,
+                'complete_course' => $student->fresh()->complete_course,
+                'enrollment_completed' => true,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('completeCourseAjax error', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return response()->json(['error' => 'Could not update completion: ' . $e->getMessage()], 500);
+        }
     }
 
     protected function resolveVideoSource(?string $contentUrl): array

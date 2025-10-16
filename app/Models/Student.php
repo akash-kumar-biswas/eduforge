@@ -24,12 +24,17 @@ class Student extends Authenticatable
         'postcode',
         'country',
         'status',
+        'complete_course',
         'password',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'complete_course' => 'integer',
     ];
 
     public function enrollments()

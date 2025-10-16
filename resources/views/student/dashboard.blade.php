@@ -532,8 +532,8 @@
         }
 
         /* ========================================
-                       📱 RESPONSIVE STYLES
-                       ======================================== */
+                           📱 RESPONSIVE STYLES
+                           ======================================== */
 
         /* Large Tablets (992px and below) */
         @media (max-width: 992px) {
@@ -1146,7 +1146,17 @@
                 @if($allCourses->count() > 0)
                     <div class="courses-grid">
                         @foreach($allCourses as $course)
-                            <div class="course-card">
+                            @php
+                                $isCompleted = false;
+                                // if the pivot has is_completed (from migration) use it
+                                if (isset($course->pivot) && isset($course->pivot->is_completed)) {
+                                    $isCompleted = (bool) $course->pivot->is_completed;
+                                } else {
+                                    // fallback: if student.complete_course is present, UI will show count only
+                                    $isCompleted = false;
+                                }
+                            @endphp
+                            <div class="course-card" data-course-id="{{ $course->id }}">
                                 <img src="{{ $course->image ? asset('uploads/courses/' . $course->image) : 'https://via.placeholder.com/400x220/4facfe/ffffff?text=Course+Image' }}"
                                     alt="{{ $course->title }}" class="course-image">
                                 <div class="course-content">
@@ -1167,9 +1177,15 @@
                                         <a href="{{ route('student.courses.watch', $course->id) }}" class="watch-course-btn">
                                             <i class="bi bi-play-circle me-1"></i> WATCH
                                         </a>
-                                        <button onclick="completeCourse(this, {{ $course->id }})" class="complete-course-btn">
-                                            <i class="bi bi-check-circle me-1"></i> COMPLETE
-                                        </button>
+                                        @if($isCompleted)
+                                            <button class="complete-course-btn" disabled>
+                                                <i class="bi bi-check-circle me-1"></i> COMPLETED
+                                            </button>
+                                        @else
+                                            <button onclick="completeCourse(this, {{ $course->id }})" class="complete-course-btn">
+                                                <i class="bi bi-check-circle me-1"></i> COMPLETE
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -1419,34 +1435,84 @@
     </div>
 
     <script>
-        // Complete Course Functionality
-        let completedCourses = JSON.parse(localStorage.getItem('completedCourses_{{ $student->id }}')) || [];
+        // Complete Course Functionality (server-backed)
+        // Prevent duplicate clicks while request is pending
+        const completing = new Set();
 
-        function completeCourse(button, courseId) {
-            // Check if already completed
-            if (completedCourses.includes(courseId)) {
-                return;
+        async function completeCourse(button, courseId) {
+            if (completing.has(courseId)) return; // already pending
+            completing.add(courseId);
+
+            // Optimistically disable the button
+            button.disabled = true;
+            button.style.opacity = '0.7';
+
+            try {
+                const meta = document.querySelector('meta[name="csrf-token"]');
+                const token = meta ? meta.getAttribute('content') : null;
+
+                const res = await fetch("{{ url('student/courses') }}/" + courseId + "/complete", {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token || '',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!res.ok) {
+                    // try to extract JSON message or text
+                    let err = {};
+                    try { err = await res.json(); } catch (e) { /* ignore */ }
+                    alert(err.error || err.message || 'Could not mark course complete.');
+                    button.disabled = false;
+                    button.style.opacity = '';
+                    return;
+                }
+
+                const data = await res.json().catch(() => ({}));
+
+                // Mark the course card as completed in-place (do not remove)
+                const courseCard = button.closest('.course-card');
+                if (courseCard) {
+                    const completedBtn = document.createElement('button');
+                    completedBtn.className = 'complete-course-btn';
+                    completedBtn.disabled = true;
+                    completedBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i> COMPLETED';
+                    button.replaceWith(completedBtn);
+                }
+
+                // Update completed count from server value
+                if (data && data.complete_course !== undefined) {
+                    const completedCountElement = document.querySelector('.stat-icon.completed').nextElementSibling.querySelector('h3');
+                    if (completedCountElement) {
+                        completedCountElement.textContent = data.complete_course;
+                        // brief animation
+                        completedCountElement.style.transition = 'all 0.3s ease';
+                        completedCountElement.style.transform = 'scale(1.2)';
+                        completedCountElement.style.color = '#43e97b';
+                        setTimeout(() => {
+                            completedCountElement.style.transform = 'scale(1)';
+                            completedCountElement.style.color = '';
+                        }, 300);
+                    }
+                } else {
+                    // fallback to incrementing locally
+                    try { updateCompletedCount(); } catch (e) { /* ignore */ }
+                }
+
+            } catch (e) {
+                console.error('completeCourse error', e);
+                let msg = 'An error occurred while marking the course complete.';
+                try { if (e && e.message) msg = e.message; } catch (_) { }
+                alert(msg);
+                button.disabled = false;
+                button.style.opacity = '';
+            } finally {
+                completing.delete(courseId);
             }
-
-            // Add to completed courses
-            completedCourses.push(courseId);
-            localStorage.setItem('completedCourses_{{ $student->id }}', JSON.stringify(completedCourses));
-
-            // Find and hide the course card with animation
-            const courseCard = button.closest('.course-card');
-            courseCard.style.transition = 'all 0.5s ease';
-            courseCard.style.opacity = '0';
-            courseCard.style.transform = 'scale(0.9)';
-
-            setTimeout(() => {
-                courseCard.style.display = 'none';
-
-                // Update completed count
-                updateCompletedCount();
-
-                // Check if no courses left
-                checkEmptyState();
-            }, 500);
         }
 
         function updateCompletedCount() {
@@ -1471,28 +1537,61 @@
 
             if (visibleCourses.length === 0) {
                 coursesGrid.innerHTML = `
-                            <div class="empty-state" style="grid-column: 1 / -1;">
-                                <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
-                                <h3>🎉 Congratulations!</h3>
-                                <p>You've completed all your enrolled courses!</p>
-                            </div>
-                        `;
+                                <div class="empty-state" style="grid-column: 1 / -1;">
+                                    <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
+                                    <h3>🎉 Congratulations!</h3>
+                                    <p>You've completed all your enrolled courses!</p>
+                                </div>
+                            `;
             }
         }
 
-        // Hide already completed courses on page load
+        // Hide already completed courses on page load (if provided)
         document.addEventListener('DOMContentLoaded', function () {
-            completedCourses.forEach(courseId => {
-                const courseCards = document.querySelectorAll('.course-card');
-                courseCards.forEach(card => {
-                    const completeButton = card.querySelector('.complete-course-btn');
-                    if (completeButton && completeButton.onclick.toString().includes(courseId)) {
-                        card.style.display = 'none';
-                    }
-                });
-            });
+            try {
+                if (typeof completedCourses !== 'undefined' && Array.isArray(completedCourses)) {
+                    completedCourses.forEach(courseId => {
+                        const courseCards = document.querySelectorAll('.course-card');
+                        courseCards.forEach(card => {
+                            const completeButton = card.querySelector('.complete-course-btn');
+                            if (completeButton && completeButton.onclick && completeButton.onclick.toString().includes(courseId)) {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                }
+            } catch (e) {
+                // ignore
+            }
 
             checkEmptyState();
+        });
+
+        // If the page was restored from the browser's back-forward cache (bfcache),
+        // reload to ensure we display the authoritative server-rendered state
+        window.addEventListener('pageshow', function (event) {
+            try {
+                if (event.persisted) {
+                    window.location.reload();
+                }
+            } catch (e) {
+                // ignore
+            }
+        });
+
+        // When the tab becomes visible again, reload to get fresh server data
+        document.addEventListener('visibilitychange', function () {
+            try {
+                if (document.visibilityState === 'visible') {
+                    // small optimization: only reload if page wasn't just loaded
+                    if (!window.__dashboardAutoReloaded) {
+                        window.__dashboardAutoReloaded = true;
+                        window.location.reload();
+                    }
+                }
+            } catch (e) {
+                // ignore
+            }
         });
     </script>
 @endsection

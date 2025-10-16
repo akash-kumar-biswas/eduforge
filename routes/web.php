@@ -114,6 +114,8 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('profile/edit', [LoginController::class, 'editProfile'])->name('profile.edit');
         Route::put('profile/update', [LoginController::class, 'updateProfile'])->name('profile.update');
         Route::get('courses/{course}', [StudentController::class, 'watchCourse'])->name('courses.watch');
+        // Mark a course as completed for this student (AJAX)
+        Route::post('courses/{course}/complete', [StudentController::class, 'completeCourseAjax'])->name('courses.complete');
     });
 });
 

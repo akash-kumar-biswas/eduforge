@@ -56,24 +56,31 @@ class LoginController extends Controller
     {
         $student = Auth::guard('student')->user();
 
-        // Get all enrolled courses with instructor info
-        $allCourses = \App\Models\Enrollment::with(['course.instructor'])
+        // Build the courses list from Enrollment records so we have authoritative
+        // access to `is_completed` stored on the enrollments table.
+        $enrollments = \App\Models\Enrollment::with(['course.instructor'])
             ->where('student_id', $student->id)
-            ->get()
-            ->pluck('course')
-            ->unique('id')
-            ->values();
+            ->get();
 
-        // Calculate progress for each course (for now, using random percentage)
-        $allCourses->each(function ($course) {
-            $course->progress = rand(10, 95); // Replace with actual progress calculation
-        });
+        $allCourses = $enrollments->map(function ($enrollment) {
+            $course = $enrollment->course;
+            // Attach a lightweight pivot object so the blade can read pivot->is_completed
+            $course->pivot = (object) [
+                'is_completed' => (bool) ($enrollment->is_completed ?? false),
+                'created_at' => $enrollment->created_at,
+            ];
+
+            // Progress placeholder: completed -> 100, otherwise 0
+            $course->progress = $course->pivot->is_completed ? 100 : 0;
+
+            return $course;
+        })->values();
 
         // Get enrolled courses count
         $enrolledCount = $allCourses->count();
 
-        // Get completed courses count (courses with 100% progress)
-        $completedCount = $allCourses->where('progress', 100)->count();
+        // Completed courses count: prefer authoritative students.complete_course
+        $completedCount = (int) $student->complete_course;
 
         // Get purchase history - fetch payment_items grouped by payment_id
         $purchaseHistory = \App\Models\PaymentItem::with(['payment', 'course.instructor'])
