@@ -27,11 +27,11 @@ class PaymentController extends Controller
     public function index()
     {
         // Check if student is logged in
-        if (!Auth::guard('student')->check()) {
+        if (!session()->has('student_logged_in')) {
             return redirect()->route('student.login')->with('error', 'Please login to view payment history.');
         }
 
-        $studentId = Auth::guard('student')->id();
+        $studentId = session('student_id');
 
         $payments = Payment::with('items.course')
             ->where('student_id', $studentId)
@@ -45,7 +45,7 @@ class PaymentController extends Controller
     public function checkout(Request $request)
     {
         // Check if student is logged in
-        if (!Auth::guard('student')->check()) {
+        if (!session()->has('student_logged_in')) {
             return redirect()->route('student.login')->with('error', 'Please login to checkout.');
         }
 
@@ -58,7 +58,7 @@ class PaymentController extends Controller
             'email' => 'nullable|email',
         ]);
 
-        $studentId = Auth::guard('student')->id();
+        $studentId = session('student_id');
 
         $cartItems = Cart::with('course')->where('student_id', $studentId)->get();
 
@@ -160,9 +160,15 @@ class PaymentController extends Controller
             return redirect()->route('cart.index')->with('error', 'Student not found.');
         }
 
-        // Re-authenticate the student if not already logged in
-        if (!Auth::guard('student')->check()) {
-            Auth::guard('student')->login($student, true); // true = remember
+        // Re-authenticate the student if not already logged in using session
+        if (!session()->has('student_logged_in')) {
+            // Set session for the student
+            session([
+                'student_logged_in' => true,
+                'student_name' => $student->name,
+                'student_id' => $student->id,
+                'student_email' => $student->email,
+            ]);
             session()->regenerate(); // Regenerate session ID for security
         }
 
@@ -318,8 +324,13 @@ class PaymentController extends Controller
             return redirect()->route('student.login')->with('error', 'Student not found.');
         }
 
-        // Log in the student for the browser session and regenerate
-        Auth::guard('student')->login($student, true);
+        // Log in the student for the browser session using session
+        session([
+            'student_logged_in' => true,
+            'student_name' => $student->name,
+            'student_id' => $student->id,
+            'student_email' => $student->email,
+        ]);
         $request->session()->regenerate();
         Log::info('Payment complete login performed', ['student_id' => $studentId, 'session_id' => $request->session()->getId()]);
 
@@ -481,11 +492,16 @@ class PaymentController extends Controller
         $payment = Payment::where('txnid', $tranId)->first();
 
         if ($payment) {
-            // Re-authenticate the student if not already logged in
-            if (!Auth::guard('student')->check()) {
+            // Re-authenticate the student if not already logged in using session
+            if (!session()->has('student_logged_in')) {
                 $student = \App\Models\Student::find($payment->student_id);
                 if ($student) {
-                    Auth::guard('student')->login($student, true);
+                    session([
+                        'student_logged_in' => true,
+                        'student_name' => $student->name,
+                        'student_id' => $student->id,
+                        'student_email' => $student->email,
+                    ]);
                     session()->regenerate();
                     session()->save();
                 }
@@ -512,11 +528,16 @@ class PaymentController extends Controller
         $payment = Payment::where('txnid', $tranId)->first();
 
         if ($payment) {
-            // Re-authenticate the student if not already logged in
-            if (!Auth::guard('student')->check()) {
+            // Re-authenticate the student if not already logged in using session
+            if (!session()->has('student_logged_in')) {
                 $student = \App\Models\Student::find($payment->student_id);
                 if ($student) {
-                    Auth::guard('student')->login($student, true);
+                    session([
+                        'student_logged_in' => true,
+                        'student_name' => $student->name,
+                        'student_id' => $student->id,
+                        'student_email' => $student->email,
+                    ]);
                     session()->regenerate();
                     session()->save();
                 }

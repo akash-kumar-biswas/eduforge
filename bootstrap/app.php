@@ -35,14 +35,14 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Configure where authenticated users should be redirected when accessing guest-only routes
         $middleware->redirectUsersTo(function () {
-            // Check which guard the user is authenticated with
-            if (auth()->guard('student')->check()) {
+            // Check which session is active
+            if (session()->has('student_logged_in')) {
                 return route('student.dashboard');
             }
-            if (auth()->guard('admin')->check()) {
+            if (session()->has('admin_id')) {
                 return route('admin.dashboard');
             }
-            if (auth()->guard('instructor')->check()) {
+            if (session()->has('instructor_logged_in')) {
                 return route('instructor.dashboard');
             }
             // Default to home

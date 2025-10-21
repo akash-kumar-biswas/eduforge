@@ -89,6 +89,10 @@
                 margin-bottom: 1rem;
                 margin-right: 0 !important;
             }
+
+            .navbar-brand img {
+                left: 0px;
+            }
         }
 
         /* ✅ Footer Styles */
@@ -211,11 +215,11 @@
 
                 <!-- ✅ Conditional Auth Buttons -->
                 <div class="d-flex align-items-center">
-                    @auth('student')
+                    @if(session('student_logged_in'))
                         <div class="dropdown me-2">
                             <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                👤 {{ Auth::guard('student')->user()->name ?? Auth::guard('student')->user()->email }}
+                                👤 {{ session('student_name') ?? session('student_email') }}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                                 <li><a class="dropdown-item" href="{{ route('student.dashboard') }}">Dashboard</a></li>
@@ -232,7 +236,7 @@
                         </div>
                     @else
                         <a href="{{ route('student.login') }}" class="btn btn-outline-light me-2">Sign In</a>
-                    @endauth
+                    @endif
 
                     <a href="{{ url('/cart') }}" class="btn btn-outline-light ms-2">🛒 Cart</a>
                 </div>

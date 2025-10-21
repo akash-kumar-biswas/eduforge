@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class InstructorController extends Controller
 {
@@ -35,6 +36,10 @@ class InstructorController extends Controller
         ]);
 
         $data = $request->only(['name', 'email', 'bio', 'status']);
+
+        // Store the plain password to send via email
+        $plainPassword = $request->password;
+
         $data['password'] = Hash::make($request->password);
         $data['status'] = $request->has('status') ? 1 : 0;
 
@@ -46,9 +51,25 @@ class InstructorController extends Controller
             $data['image'] = $imageName;
         }
 
-        Instructor::create($data);
+        $instructor = Instructor::create($data);
 
-        return redirect()->route('admin.instructors.index')->with('success', 'Instructor created successfully!');
+        // Send welcome email with credentials
+        try {
+            Mail::send('emails.instructor-welcome', [
+                'instructorName' => $instructor->name,
+                'instructorEmail' => $instructor->email,
+                'password' => $plainPassword,
+                'loginUrl' => route('instructor.login'),
+            ], function ($message) use ($instructor) {
+                $message->to($instructor->email)
+                    ->subject('Welcome to EduForge - Your Instructor Account is Ready!')
+                    ->from('akash41bt@gmail.com', 'EduForge Admin');
+            });
+        } catch (\Exception $e) {
+            \Log::error('Failed to send instructor welcome email: ' . $e->getMessage());
+        }
+
+        return redirect()->route('admin.instructors.index')->with('success', 'Instructor added successfully! A welcome email with login credentials has been sent to ' . $instructor->email);
     }
 
     // Show instructor details
@@ -89,12 +110,39 @@ class InstructorController extends Controller
             $data['image'] = $imageName;
         }
 
+        // Track if password is being updated
+        $passwordUpdated = false;
+        $newPassword = null;
+
         // Update password if provided
         if ($request->filled('password')) {
+            $newPassword = $request->password;
             $data['password'] = Hash::make($request->password);
+            $passwordUpdated = true;
         }
 
         $instructor->update($data);
+
+        // Send email if password was updated
+        if ($passwordUpdated && $newPassword) {
+            try {
+                Mail::send('emails.instructor-password-updated', [
+                    'instructorName' => $instructor->name,
+                    'instructorEmail' => $instructor->email,
+                    'newPassword' => $newPassword,
+                    'loginUrl' => route('instructor.login'),
+                ], function ($message) use ($instructor) {
+                    $message->to($instructor->email)
+                        ->subject('Your EduForge Password Has Been Updated')
+                        ->from('akash41bt@gmail.com', 'EduForge Admin');
+                });
+
+                return redirect()->route('admin.instructors.index')->with('success', 'Instructor updated successfully! A password update email has been sent to ' . $instructor->email);
+            } catch (\Exception $e) {
+                \Log::error('Failed to send password update email: ' . $e->getMessage());
+                return redirect()->route('admin.instructors.index')->with('success', 'Instructor updated successfully! (Note: Email notification could not be sent)');
+            }
+        }
 
         return redirect()->route('admin.instructors.index')->with('success', 'Instructor updated successfully!');
     }

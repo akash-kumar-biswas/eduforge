@@ -357,7 +357,7 @@
 
                 <!-- Additional Links -->
                 <div class="additional-links">
-                    <p>Don't have an account? <a href="{{ route('instructor.register') }}">Create an Account</a></p>
+                    <p>Don't have an account? <a href="{{ route('instructor.apply') }}">Apply for Instructor</a></p>
                 </div>
             </div>
         </div>

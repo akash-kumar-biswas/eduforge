@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="py-5 bg-primary text-white about-s">
+    <section class="py-5 text-white about-s" style="background: #343a40 !important;">
         <div class="container text-center">
             <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
             <p class="lead mb-0">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as

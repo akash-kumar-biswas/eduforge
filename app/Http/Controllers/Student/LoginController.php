@@ -11,7 +11,23 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('student.login'); // your blade
+        // Check if remember me cookie exists and auto-login
+        if (request()->cookie('student_remember_token')) {
+            $rememberToken = request()->cookie('student_remember_token');
+            $student = \App\Models\Student::where('remember_token', $rememberToken)->first();
+
+            if ($student) {
+                session([
+                    'student_logged_in' => true,
+                    'student_name' => $student->name,
+                    'student_id' => $student->id,
+                    'student_email' => $student->email,
+                ]);
+                return redirect()->route('student.dashboard');
+            }
+        }
+
+        return view('student.login');
     }
 
     public function login(Request $request)
@@ -21,31 +37,32 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        $remember = $request->has('remember');
+        $student = \App\Models\Student::where('email', $credentials['email'])->first();
 
-        \Log::info('Student login attempt', ['email' => $credentials['email']]);
-
-        if (Auth::guard('student')->attempt($credentials, $remember)) {
-            \Log::info('Student login successful', ['email' => $credentials['email']]);
-            $request->session()->regenerate();
-            $request->session()->save(); // Ensure session is saved
-
-            // Log session and cookie info for debugging
-            $cookieName = config('session.cookie');
-            $sessionId = $request->session()->getId();
-            $cookieValue = $_COOKIE[$cookieName] ?? null;
-            \Log::info('Post-login session info', [
-                'email' => $credentials['email'],
-                'session_id' => $sessionId,
-                'cookie_name' => $cookieName,
-                'cookie_value' => $cookieValue,
-                'guard_check' => Auth::guard('student')->check(),
+        if ($student && Hash::check($credentials['password'], $student->password)) {
+            // Set session
+            session([
+                'student_logged_in' => true,
+                'student_name' => $student->name,
+                'student_id' => $student->id,
+                'student_email' => $student->email,
             ]);
+
+            // Handle Remember Me
+            if ($request->has('remember')) {
+                // Generate a unique remember token
+                $rememberToken = bin2hex(random_bytes(32));
+
+                // Save token to database
+                $student->remember_token = $rememberToken;
+                $student->save();
+
+                // Set cookie for 30 days
+                cookie()->queue('student_remember_token', $rememberToken, 60 * 24 * 30);
+            }
 
             return redirect()->intended(route('student.dashboard'));
         }
-
-        \Log::warning('Student login failed', ['email' => $credentials['email']]);
 
         return back()->withErrors([
             'email' => 'Invalid credentials.',
@@ -54,7 +71,8 @@ class LoginController extends Controller
 
     public function dashboard()
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = \App\Models\Student::findOrFail($studentId);
 
         // Build the courses list from Enrollment records so we have authoritative
         // access to `is_completed` stored on the enrollments table.
@@ -108,19 +126,22 @@ class LoginController extends Controller
 
     public function profile()
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = \App\Models\Student::findOrFail($studentId);
         return view('student.profile', compact('student'));
     }
 
     public function editProfile()
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = \App\Models\Student::findOrFail($studentId);
         return view('student.edit-profile', compact('student'));
     }
 
     public function updateProfile(Request $request)
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = \App\Models\Student::findOrFail($studentId);
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -178,7 +199,21 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('student')->logout();
+        // Get current student
+        if (session('student_id')) {
+            $student = \App\Models\Student::find(session('student_id'));
+            if ($student) {
+                // Clear remember token from database
+                $student->remember_token = null;
+                $student->save();
+            }
+        }
+
+        // Clear session
+        session()->forget(['student_logged_in', 'student_name', 'student_id', 'student_email']);
+
+        // Clear remember me cookie
+        cookie()->queue(cookie()->forget('student_remember_token'));
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

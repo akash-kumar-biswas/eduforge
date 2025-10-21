@@ -15,7 +15,8 @@ class StudentController extends Controller
 {
     public function dashboard()
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = Student::findOrFail($studentId);
 
         // Get all enrolled courses with instructor info
         $allCourses = $student->courses()
@@ -101,7 +102,8 @@ class StudentController extends Controller
 
     public function watchCourse(Course $course)
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = Student::findOrFail($studentId);
 
         if (!$student) {
             return redirect()->route('student.login');
@@ -139,7 +141,8 @@ class StudentController extends Controller
      */
     public function completeCourseAjax(Course $course)
     {
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = Student::findOrFail($studentId);
 
         // Log the incoming request so we can debug client/server interactions
         Log::info('Entered completeCourseAjax', [

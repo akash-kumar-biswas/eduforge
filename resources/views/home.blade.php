@@ -21,9 +21,9 @@
                     </form>
                 </div>
                 <!-- <div class="col-lg-5 text-center">
-                                <img src="{{ asset('frontend/dist/images/banner/banner.jpg') }}" alt="Learning Image"
-                                    class="img-fluid hero-image rounded">
-                            </div> -->
+                                    <img src="{{ asset('frontend/dist/images/banner/banner.jpg') }}" alt="Learning Image"
+                                        class="img-fluid hero-image rounded">
+                                </div> -->
             </div>
         </div>
     </section>
@@ -69,14 +69,7 @@
 
 
 
-    <!-- 📞 Contact Section -->
-    <section class="py-5 bg-primary text-white text-center contact-s" style="background-color: red;">
-        <div class="container">
-            <h2 class="fw-bold mb-3">Have Questions? Get In Touch!</h2>
-            <p class="lead mb-4">We're here to help you on your learning journey. Contact us anytime!</p>
-            <a href="{{ url('/contact') }}" class="btn btn-light btn-lg px-5">Contact Us</a>
-        </div>
-    </section>
+  
 
     <style>
         .learning-section {

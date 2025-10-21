@@ -13,11 +13,11 @@ class CartController extends Controller
     public function index()
     {
         // Check if student is logged in
-        if (!Auth::guard('student')->check()) {
+        if (!session()->has('student_logged_in')) {
             return redirect()->route('student.login')->with('error', 'Please login to view your cart.');
         }
 
-        $studentId = Auth::guard('student')->id();
+        $studentId = session('student_id');
         $cartItems = Cart::with('course')
             ->where('student_id', $studentId)
             ->get();
@@ -29,12 +29,12 @@ class CartController extends Controller
     public function add(Request $request, $courseId)
     {
         // Check if student is logged in
-        if (!Auth::guard('student')->check()) {
+        if (!session()->has('student_logged_in')) {
             return redirect()->route('student.login')->with('error', 'Please login to add courses to cart.');
         }
 
-        $studentId = Auth::guard('student')->id();
-        $student = Auth::guard('student')->user();
+        $studentId = session('student_id');
+        $student = \App\Models\Student::findOrFail($studentId);
 
         // Check if course exists
         $course = Course::find($courseId);
@@ -68,11 +68,11 @@ class CartController extends Controller
     public function remove($id)
     {
         // Check if student is logged in
-        if (!Auth::guard('student')->check()) {
+        if (!session()->has('student_logged_in')) {
             return redirect()->route('student.login')->with('error', 'Please login to manage your cart.');
         }
 
-        $studentId = Auth::guard('student')->id();
+        $studentId = session('student_id');
 
         $cartItem = Cart::where('id', $id)
             ->where('student_id', $studentId)
@@ -87,11 +87,11 @@ class CartController extends Controller
     public function clear()
     {
         // Check if student is logged in
-        if (!Auth::guard('student')->check()) {
+        if (!session()->has('student_logged_in')) {
             return redirect()->route('student.login')->with('error', 'Please login to manage your cart.');
         }
 
-        $studentId = Auth::guard('student')->id();
+        $studentId = session('student_id');
         Cart::where('student_id', $studentId)->delete();
 
         return redirect()->back()->with('success', 'Cart cleared!');

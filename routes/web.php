@@ -35,6 +35,11 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InstructorAuthController;
+use App\Http\Controllers\InstructorApplicationController;
+
+// Instructor Application Routes (Public)
+Route::get('/instructor/apply', [InstructorApplicationController::class, 'showApplicationForm'])->name('instructor.apply');
+Route::post('/instructor/apply', [InstructorApplicationController::class, 'submitApplication'])->name('instructor.apply.submit');
 
 // Instructor Login & Signup (Guest routes)
 Route::get('/instructor/login', [InstructorAuthController::class, 'showLoginForm'])->name('instructor.login');
@@ -107,7 +112,7 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
 
     // Authenticated student routes
-    Route::middleware('auth:student')->group(function () {
+    Route::middleware('auth.student')->group(function () {
         Route::get('dashboard', [LoginController::class, 'dashboard'])->name('dashboard');
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('profile', [LoginController::class, 'profile'])->name('profile');
@@ -119,15 +124,17 @@ Route::prefix('student')->name('student.')->group(function () {
     });
 });
 
-// Cart routes
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{courseId}', [CartController::class, 'add'])->name('cart.add');
-Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+// Cart routes (Protected - Student Auth Required)
+Route::middleware('auth.student')->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{courseId}', [CartController::class, 'add'])->name('cart.add');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
-// Payment routes
-Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
-Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    // Payment routes (Protected - Student Auth Required)
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+});
 
 // SSLCOMMERZ Payment Callback Routes (accept both GET and POST)
 Route::match(['get', 'post'], '/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
