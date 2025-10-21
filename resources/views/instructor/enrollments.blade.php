@@ -3,23 +3,157 @@
 @section('title', 'Course Enrollments')
 
 @section('content')
+<style>
+    :root {
+        --brand-color: #04317aff;
+    }
+
+    /* === Top Stats Cards (Hover Effect Like Dashboard) === */
+    .stats-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .stats-card:hover {
+        border-color: var(--brand-color);
+        box-shadow: 0 4px 12px rgba(4, 49, 122, 0.15);
+        transform: translateY(-2px);
+    }
+
+    /* === Buttons === */
+    .btn-primary {
+        background-color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        color: #fff !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        box-shadow: 0 4px 8px rgba(4, 49, 122, 0.25);
+        transform: translateY(-1px);
+    }
+
+    .btn-outline-primary {
+        color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--brand-color) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 8px rgba(4, 49, 122, 0.25);
+        transform: translateY(-1px);
+    }
+
+    /* === Brand Accent Badges === */
+    .badge.bg-primary {
+        background-color: var(--brand-color) !important;
+    }
+
+    .text-brand {
+        color: var(--brand-color) !important;
+    }
+
+    /* === Student Avatar Placeholder === */
+    .student-avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+    }
+
+    .placeholder-avatar {
+        background-color: #eff6ff;
+        color: var(--brand-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        border: 1px solid #e2e8f0;
+    }
+
+    /* === Accordion Styling === */
+    .accordion-item {
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .accordion-button {
+        background: #f8fafc;
+        font-weight: 600;
+        color: #1e293b;
+        transition: all 0.2s ease;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: var(--brand-color);
+        background: #eff6ff;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: inset 0 -1px 0 #e2e8f0;
+    }
+
+    .accordion-button:focus {
+        box-shadow: 0 0 0 0.25rem rgba(4, 49, 122, 0.25);
+    }
+
+    .accordion-button:hover {
+        background: #f1f5f9;
+    }
+
+    /* === DataTables Styling === */
+    table.dataTable thead th {
+        background-color: #f8fafc !important;
+        color: #1e293b !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 4px 8px;
+        outline: none;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: var(--brand-color);
+        box-shadow: 0 0 0 2px rgba(4, 49, 122, 0.15);
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background-color: var(--brand-color) !important;
+        color: #fff !important;
+        border: 1px solid var(--brand-color) !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-color: var(--brand-color) !important;
+        color: #fff !important;
+    }
+</style>
+
 <div class="container mt-4">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
             <h3 class="mb-1">Course Enrollments</h3>
             <p class="text-muted mb-0">Students currently enrolled across your courses.</p>
         </div>
-        <div class="badge bg-light text-dark fw-semibold p-3">
-            <i class="bi bi-person-badge me-2"></i>{{ $instructor->name }}
+        <div class="badge bg-light text-dark fw-semibold p-3 border" style="border-color: var(--brand-color) !important;">
+            <i class="bi bi-person-badge me-2 text-brand"></i>{{ $instructor->name }}
         </div>
     </div>
 
+    <!-- === Top Stats Cards === -->
     <div class="row g-3 mb-4">
         <div class="col-sm-6 col-lg-3">
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Total Enrollments</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['total_enrollments'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['total_enrollments'] }}</h3>
                 </div>
             </div>
         </div>
@@ -27,7 +161,7 @@
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Unique Students</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['unique_students'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['unique_students'] }}</h3>
                 </div>
             </div>
         </div>
@@ -35,7 +169,7 @@
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Courses with Students</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['courses_with_students'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['courses_with_students'] }}</h3>
                 </div>
             </div>
         </div>
@@ -43,12 +177,13 @@
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Last 7 Days</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['recent_enrollments'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['recent_enrollments'] }}</h3>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- === Main Content === -->
     @if ($courses->isEmpty())
         <div class="card shadow-sm">
             <div class="card-body text-center py-5">
@@ -75,9 +210,13 @@
                 @foreach ($courses as $course)
                     <div class="accordion-item mb-3 shadow-sm">
                         <h2 class="accordion-header" id="heading{{ $course->id }}">
-                            <button class="accordion-button d-flex flex-wrap justify-content-between gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $course->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse{{ $course->id }}">
+                            <button class="accordion-button d-flex flex-wrap justify-content-between gap-2" 
+                                    type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapse{{ $course->id }}" 
+                                    aria-expanded="{{ $loop->first ? 'true' : 'false' }}" 
+                                    aria-controls="collapse{{ $course->id }}">
                                 <div>
-                                    <h5 class="mb-0">{{ $course->title }}</h5>
+                                    <h5 class="mb-0 text-brand">{{ $course->title }}</h5>
                                     <div class="text-muted small">
                                         <span class="me-3"><i class="bi bi-people"></i> {{ $course->enrollments->count() }} students</span>
                                         <span class="me-3"><i class="bi bi-clock-history"></i> {{ optional($course->enrollments->first())->created_at?->diffForHumans() ?? 'No enrollments yet' }}</span>
@@ -87,11 +226,14 @@
                                     </div>
                                 </div>
                                 <div class="text-end ms-lg-auto">
-                                    <span class="badge bg-light text-dark">Status: {{ ucfirst($course->status ?? 'active') }}</span>
+                                    <span class="badge bg-light text-dark border" style="border-color: var(--brand-color) !important;">Status: {{ ucfirst($course->status ?? 'active') }}</span>
                                 </div>
                             </button>
                         </h2>
-                        <div id="collapse{{ $course->id }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $course->id }}" data-bs-parent="#coursesAccordion">
+                        <div id="collapse{{ $course->id }}" 
+                             class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" 
+                             aria-labelledby="heading{{ $course->id }}" 
+                             data-bs-parent="#coursesAccordion">
                             <div class="accordion-body">
                                 @if ($course->enrollments->isEmpty())
                                     <p class="text-muted mb-0">No students enrolled yet.</p>
@@ -114,7 +256,9 @@
                                                         <td>
                                                             <div class="d-flex align-items-center gap-3">
                                                                 @if ($enrollment->student && $enrollment->student->image)
-                                                                    <img src="{{ asset('uploads/students/' . $enrollment->student->image) }}" alt="{{ $enrollment->student->name }}" class="rounded-circle student-avatar">
+                                                                    <img src="{{ asset('uploads/students/' . $enrollment->student->image) }}" 
+                                                                         alt="{{ $enrollment->student->name }}" 
+                                                                         class="rounded-circle student-avatar">
                                                                 @else
                                                                     <div class="rounded-circle student-avatar placeholder-avatar">
                                                                         <span>{{ strtoupper(substr($enrollment->student->name ?? 'S', 0, 1)) }}</span>

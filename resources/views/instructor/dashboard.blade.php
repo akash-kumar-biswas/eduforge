@@ -3,6 +3,91 @@
 @section('title', 'Instructor Dashboard')
 
 @section('content')
+<style>
+    /* === Global Brand Theme === */
+    :root {
+        --brand-color: #04317aff;
+    }
+
+    /* === Stat Cards (Top 4) === */
+    .stats-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .stats-card:hover {
+        border-color: var(--brand-color);
+        box-shadow: 0 4px 12px rgba(4, 49, 122, 0.15);
+        transform: translateY(-2px);
+    }
+
+    /* === Primary Buttons === */
+    .btn-primary {
+        background-color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        color: #fff !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        box-shadow: 0 4px 8px rgba(4, 49, 122, 0.25);
+        transform: translateY(-1px);
+    }
+
+    /* === Outline Buttons === */
+    .btn-outline-primary {
+        color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--brand-color) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 8px rgba(4, 49, 122, 0.25);
+        transform: translateY(-1px);
+    }
+
+    /* === Outline Secondary (Converted to Brand Color) === */
+    .btn-outline-secondary {
+        color: var(--brand-color) !important;
+        border-color: var(--brand-color) !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: var(--brand-color) !important;
+        color: #fff !important;
+        border-color: var(--brand-color) !important;
+        box-shadow: 0 4px 8px rgba(4, 49, 122, 0.25);
+        transform: translateY(-1px);
+    }
+
+    /* === Badges for consistency === */
+    .badge.bg-primary {
+        background-color: var(--brand-color) !important;
+    }
+
+    /* === General Aesthetic Improvements === */
+    .card-header.bg-light {
+        background-color: #f8fafc !important;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .fw-semibold {
+        font-weight: 600;
+    }
+
+    .text-brand {
+        color: var(--brand-color) !important;
+    }
+</style>
+
 <div class="container my-4">
     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
         <div>
@@ -19,12 +104,13 @@
         </div>
     </div>
 
+    <!-- === Stats Cards === -->
     <div class="row g-3 mb-4">
         <div class="col-sm-6 col-lg-3">
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Total Courses</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['total_courses'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['total_courses'] }}</h3>
                 </div>
             </div>
         </div>
@@ -32,7 +118,7 @@
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Active Courses</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['active_courses'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['active_courses'] }}</h3>
                 </div>
             </div>
         </div>
@@ -40,7 +126,7 @@
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Enrollments</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['total_enrollments'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['total_enrollments'] }}</h3>
                 </div>
             </div>
         </div>
@@ -48,17 +134,19 @@
             <div class="card stats-card text-center">
                 <div class="card-body">
                     <p class="text-muted mb-1">Unique Students</p>
-                    <h3 class="fw-bold mb-0">{{ $stats['unique_students'] }}</h3>
+                    <h3 class="fw-bold mb-0 text-brand">{{ $stats['unique_students'] }}</h3>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- === Recent Enrollments & Courses === -->
     <div class="row g-4">
+        <!-- Recent Enrollments -->
         <div class="col-lg-7">
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <strong><i class="bi bi-people me-2"></i>Recent Enrollments</strong>
+                    <strong><i class="bi bi-people me-2 text-brand"></i>Recent Enrollments</strong>
                 </div>
                 <div class="card-body">
                     @if($recentEnrollments->isEmpty())
@@ -80,10 +168,11 @@
             </div>
         </div>
 
+        <!-- Your Courses -->
         <div class="col-lg-5">
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <strong><i class="bi bi-book me-2"></i>Your Courses</strong>
+                    <strong><i class="bi bi-book me-2 text-brand"></i>Your Courses</strong>
                     <a href="{{ route('instructor.courses') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
                 </div>
                 <div class="card-body">
