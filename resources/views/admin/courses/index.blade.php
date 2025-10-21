@@ -9,7 +9,7 @@
             padding: 1.5rem 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            border-left: 4px solid #8b5cf6;
+            border-left: 4px solid #04317aff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
@@ -27,7 +27,7 @@
         }
 
         .btn-add {
-            background: #8b5cf6;
+            background: #04317aff;
             color: white;
             padding: 0.5rem 1.25rem;
             border-radius: 6px;
@@ -38,7 +38,7 @@
         }
 
         .btn-add:hover {
-            background: #7c3aed;
+            background: #04317aff;
             color: white;
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(139, 92, 246, 0.25);
@@ -99,7 +99,7 @@
 
         .badge-instructor {
             background: #faf5ff;
-            color: #8b5cf6;
+            color: #04317aff;
             padding: 0.4rem 0.75rem;
             border-radius: 4px;
             font-size: 0.875rem;
@@ -110,7 +110,7 @@
         }
 
         .badge-instructor i {
-            color: #8b5cf6 !important;
+            color: #04317aff !important;
             font-size: 1rem !important;
         }
 
@@ -222,7 +222,7 @@
         a.btn-action-edit:hover {
             background-color: #dbeafe !important;
             background: #dbeafe !important;
-            color: #2563eb !important;
+            color: #04317aff !important;
         }
 
         a.btn-action-edit i {
@@ -231,7 +231,7 @@
         }
 
         a.btn-action-edit:hover i {
-            color: #2563eb !important;
+            color: #04317aff !important;
         }
 
         button.btn-action-delete {
@@ -310,19 +310,19 @@
         .dataTables_wrapper .dataTables_length select:focus,
         .dataTables_wrapper .dataTables_filter input:focus {
             outline: none;
-            border-color: #8b5cf6;
+            border-color: #04317aff;
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #8b5cf6 !important;
+            background: #04317aff !important;
             color: white !important;
             border: none !important;
             border-radius: 6px;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #7c3aed !important;
+            background: #04317aff !important;
             color: white !important;
             border: none !important;
             border-radius: 6px;

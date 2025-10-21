@@ -127,7 +127,10 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add Student</button>
+            <!-- ✅ Updated Button Color -->
+            <button type="submit" class="btn btn-primary" style="background-color: #04317aff; border-color: #04317aff;">
+                Add Student
+            </button>
         </form>
     </div>
 @endsection

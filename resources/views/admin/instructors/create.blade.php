@@ -50,7 +50,10 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add Instructor</button>
+        <!-- ✅ Updated Button Color -->
+        <button type="submit" class="btn btn-primary" style="background-color: #04317aff; border-color: #04317aff;">
+            Add Instructor
+        </button>
     </form>
 </div>
 @endsection

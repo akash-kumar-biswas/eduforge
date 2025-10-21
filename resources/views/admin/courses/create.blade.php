@@ -58,8 +58,7 @@
                 <div class="col-md-4">
                     <div class="form-group mb-3" id="priceField">
                         <label for="price">Price ($)</label>
-                        <input type="number" name="price" class="form-control" step="0.01" min="0"
-                            value="{{ old('price', '0.00') }}">
+                        <input type="number" name="price" class="form-control" step="0.01" min="0" value="{{ old('price', '0.00') }}">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -77,8 +76,7 @@
                         <select name="difficulty" class="form-control">
                             <option value="">Select Difficulty</option>
                             <option value="beginner" {{ old('difficulty') == 'beginner' ? 'selected' : '' }}>Beginner</option>
-                            <option value="intermediate" {{ old('difficulty') == 'intermediate' ? 'selected' : '' }}>
-                                Intermediate</option>
+                            <option value="intermediate" {{ old('difficulty') == 'intermediate' ? 'selected' : '' }}>Intermediate</option>
                             <option value="advanced" {{ old('difficulty') == 'advanced' ? 'selected' : '' }}>Advanced</option>
                         </select>
                     </div>
@@ -100,7 +98,10 @@
                 <input type="file" name="image" class="form-control">
             </div>
 
-            <button type="submit" class="btn btn-primary">Add Course</button>
+            <!-- ✅ Updated Button Color -->
+            <button type="submit" class="btn btn-primary" style="background-color: #04317aff; border-color: #04317aff;">
+                Add Course
+            </button>
         </form>
     </div>
 

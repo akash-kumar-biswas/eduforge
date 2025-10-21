@@ -23,8 +23,7 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="title">Course Title</label>
-                        <input type="text" name="title" class="form-control" value="{{ old('title', $course->title) }}"
-                            required>
+                        <input type="text" name="title" class="form-control" value="{{ old('title', $course->title) }}" required>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -44,8 +43,7 @@
 
             <div class="form-group mb-3">
                 <label for="description">Description</label>
-                <textarea name="description" class="form-control"
-                    rows="4">{{ old('description', $course->description) }}</textarea>
+                <textarea name="description" class="form-control" rows="4">{{ old('description', $course->description) }}</textarea>
             </div>
 
             <div class="row">
@@ -61,15 +59,13 @@
                 <div class="col-md-4">
                     <div class="form-group mb-3" id="priceField">
                         <label for="price">Price ($)</label>
-                        <input type="number" name="price" class="form-control" step="0.01" min="0"
-                            value="{{ old('price', $course->price) }}">
+                        <input type="number" name="price" class="form-control" step="0.01" min="0" value="{{ old('price', $course->price) }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group mb-3">
                         <label for="duration">Duration (hours)</label>
-                        <input type="number" name="duration" class="form-control" min="1"
-                            value="{{ old('duration', $course->duration) }}">
+                        <input type="number" name="duration" class="form-control" min="1" value="{{ old('duration', $course->duration) }}">
                     </div>
                 </div>
             </div>
@@ -102,14 +98,16 @@
                 <label for="image">Course Image</label>
                 @if($course->image)
                     <div class="mb-2">
-                        <img src="{{ asset('uploads/courses/' . $course->image) }}" width="100" class="rounded"
-                            alt="Course Image">
+                        <img src="{{ asset('uploads/courses/' . $course->image) }}" width="100" class="rounded" alt="Course Image">
                     </div>
                 @endif
                 <input type="file" name="image" class="form-control">
             </div>
 
-            <button type="submit" class="btn btn-primary">Update Course</button>
+            <!-- ✅ Updated Button Color -->
+            <button type="submit" class="btn btn-primary" style="background-color: #04317aff; border-color: #04317aff;">
+                Update Course
+            </button>
         </form>
     </div>
 

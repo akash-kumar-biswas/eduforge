@@ -54,7 +54,10 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add Enrollment</button>
+            <!-- ✅ Updated Button Color -->
+            <button type="submit" class="btn btn-primary" style="background-color: #04317aff; border-color: #04317aff;">
+                Add Enrollment
+            </button>
         </form>
     </div>
 @endsection

@@ -9,7 +9,7 @@
             padding: 1.5rem 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            border-left: 4px solid #8b5cf6;
+            border-left: 4px solid #04317aff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
@@ -27,7 +27,7 @@
         }
 
         .btn-add {
-            background: #8b5cf6 !important;
+            background: #04317aff !important;
             color: white !important;
             padding: 0.5rem 1.25rem;
             border-radius: 6px;
@@ -38,7 +38,7 @@
         }
 
         .btn-add:hover {
-            background: #7c3aed !important;
+            background: #04317aff !important;
             color: white !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(139, 92, 246, 0.25);
@@ -223,19 +223,19 @@
         .dataTables_wrapper .dataTables_length select:focus,
         .dataTables_wrapper .dataTables_filter input:focus {
             outline: none;
-            border-color: #8b5cf6;
+            border-color: #04317aff;
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #8b5cf6 !important;
+            background: #04317aff !important;
             color: white !important;
             border: none !important;
             border-radius: 6px;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #7c3aed !important;
+            background: #04317aff !important;
             color: white !important;
             border: none !important;
             border-radius: 6px;
@@ -251,7 +251,7 @@
             </div>
             <div>
                 <a href="{{ route('admin.instructors.create') }}" class="btn-add">
-                    Add New Instructor
+                    <i class="bi bi-person-plus-fill me-2"></i>Add New Instructor
                 </a>
             </div>
         </div>

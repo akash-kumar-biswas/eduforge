@@ -8,7 +8,7 @@
             padding: 1.5rem 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            border-left: 4px solid #135dd5ff;
+            border-left: 4px solid #04317aff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
@@ -83,6 +83,38 @@
             margin: 0;
         }
 
+        /* ✅ Unified "View All" Button Styling */
+        .btn-outline-primary {
+            color: #04317aff !important;
+            border: 1px solid #04317aff !important;
+            font-weight: 500;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            background-color: #fff;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #04317aff !important;
+            color: #fff !important;
+            border-color: #04317aff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(4, 49, 122, 0.25);
+        }
+
+        /* ✅ Link Styling for "View All Enrollments →" etc. */
+        .link-blue {
+            color: #04317aff !important;
+            text-decoration: none;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+
+        .link-blue:hover {
+            color: #04317aff !important;
+            text-decoration: underline;
+        }
+
         .btn-export {
             background: #04317aff;
             color: white;
@@ -95,7 +127,7 @@
         }
 
         .btn-export:hover {
-            background: #2563eb;
+            background: #04317aff;
             color: white;
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
@@ -133,7 +165,7 @@
         .text-green { color: #10b981; }
         .text-orange { color: #f59e0b; }
         .text-purple { color: #8b5cf6; }
-        
+
         .bg-blue-light { background: #eff6ff; color: #04317aff; }
         .bg-green-light { background: #f0fdf4; color: #10b981; }
         .bg-orange-light { background: #fffbeb; color: #f59e0b; }
@@ -188,7 +220,6 @@
 
         <!-- Stats Cards Row -->
         <div class="row g-3 mb-4">
-            <!-- Total Students Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="stats-card">
                     <div class="stats-label text-blue">Total Students</div>
@@ -200,7 +231,6 @@
                 </div>
             </div>
 
-            <!-- Total Instructors Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="stats-card">
                     <div class="stats-label text-purple">Total Instructors</div>
@@ -212,7 +242,6 @@
                 </div>
             </div>
 
-            <!-- Total Courses Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="stats-card">
                     <div class="stats-label text-orange">Total Courses</div>
@@ -224,21 +253,17 @@
                 </div>
             </div>
 
-            <!-- Total Enrollments Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="stats-card">
                     <div class="stats-label text-green">Total Enrollments</div>
                     <div class="stats-value">{{ $totalEnrollments }}</div>
-                    <div class="stats-meta">
-                        <span class="text-muted">All Time</span>
-                    </div>
+                    <div class="stats-meta"><span class="text-muted">All Time</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- Revenue Cards Row -->
+        <!-- Revenue Cards -->
         <div class="row g-3 mb-4">
-            <!-- Total Revenue Card -->
             <div class="col-xl-6">
                 <div class="stats-card">
                     <div class="stats-label">Total Revenue</div>
@@ -258,7 +283,6 @@
                 </div>
             </div>
 
-            <!-- This Month Revenue Card -->
             <div class="col-xl-6">
                 <div class="stats-card">
                     <div class="d-flex justify-content-between align-items-start">
@@ -286,22 +310,7 @@
             </div>
         </div>
 
-        <!-- Enrollment Trends Chart -->
-        <div class="row g-3 mb-4">
-            <div class="col-xl-12">
-                <div class="card-clean">
-                    <div class="card-header-clean">
-                        <h5 class="card-header-title">Enrollment Trends</h5>
-                        <small class="text-muted">Last 6 months (monthly) + {{ date('F Y') }} (daily)</small>
-                    </div>
-                    <div class="p-3">
-                        <canvas id="enrollmentChart" height="80"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Enrollments and Popular Courses -->
+        <!-- Recent Enrollments & Popular Courses -->
         <div class="row g-3">
             <!-- Recent Enrollments -->
             <div class="col-xl-6">
@@ -311,19 +320,16 @@
                             <h5 class="card-header-title">Recent Enrollments</h5>
                             <small class="text-muted">Latest student enrollments</small>
                         </div>
-                        <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-outline-primary">
-                            View All
-                        </a>
+                        <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
                     </div>
                     <div class="p-0">
                         @forelse($recentEnrollments as $enrollment)
                             <div class="enrollment-item border-bottom">
                                 <div class="d-flex align-items-start">
-                                    <!-- Student Avatar -->
                                     <div class="flex-shrink-0">
                                         @if($enrollment->student && $enrollment->student->image)
                                             <img src="{{ asset('uploads/students/' . $enrollment->student->image) }}"
-                                                alt="{{ $enrollment->student->name }}" class="avatar-circle">
+                                                 alt="{{ $enrollment->student->name }}" class="avatar-circle">
                                         @else
                                             <div class="avatar-circle bg-blue-light d-flex align-items-center justify-content-center">
                                                 <span class="text-blue fw-bold" style="font-size: 0.875rem;">
@@ -332,36 +338,29 @@
                                             </div>
                                         @endif
                                     </div>
-
-                                    <!-- Enrollment Details -->
                                     <div class="flex-grow-1 ms-3">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div>
                                                 <h6 class="mb-1 fw-semibold">{{ $enrollment->student->name ?? 'N/A' }}</h6>
-                                                <p class="mb-1 text-muted small">
-                                                    {{ $enrollment->course->title ?? 'N/A' }}
-                                                </p>
+                                                <p class="mb-1 text-muted small">{{ $enrollment->course->title ?? 'N/A' }}</p>
                                             </div>
                                             <span class="badge bg-light text-dark border" style="font-size: 0.75rem;">
                                                 {{ $enrollment->created_at->format('M d') }}
                                             </span>
                                         </div>
                                         <div class="mt-2">
-                                            <small class="text-muted">
-                                                {{ $enrollment->created_at->diffForHumans() }}
-                                            </small>
+                                            <small class="text-muted">{{ $enrollment->created_at->diffForHumans() }}</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <div class="text-center py-5">
-                                <p class="text-muted mb-0">No enrollments found</p>
-                            </div>
+                            <div class="text-center py-5"><p class="text-muted mb-0">No enrollments found</p></div>
                         @endforelse
+
                         @if($recentEnrollments->count() > 0)
                             <div class="p-3 bg-light border-top text-center">
-                                <a href="{{ route('admin.enrollments.index') }}" class="text-decoration-none fw-semibold text-primary" style="font-size: 0.875rem;">
+                                <a href="{{ route('admin.enrollments.index') }}" class="fw-semibold link-blue" style="font-size: 0.875rem;">
                                     View All Enrollments →
                                 </a>
                             </div>
@@ -378,26 +377,17 @@
                             <h5 class="card-header-title">Popular Courses</h5>
                             <small class="text-muted">Top courses by enrollment</small>
                         </div>
-                        <a href="{{ route('admin.courses.index') }}" class="btn btn-sm btn-outline-primary">
-                            View All
-                        </a>
+                        <a href="{{ route('admin.courses.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
                     </div>
                     <div class="p-3">
                         @forelse($popularCourses as $index => $course)
                             <div class="course-item">
                                 <div class="d-flex align-items-start">
-                                    <!-- Rank Badge -->
                                     <div class="flex-shrink-0 me-3">
                                         <div class="rank-badge {{ $index === 0 ? 'rank-1' : ($index === 1 ? 'rank-2' : ($index === 2 ? 'rank-3' : 'rank-other')) }}">
-                                            @if($index === 0)
-                                                #1
-                                            @else
-                                                #{{ $index + 1 }}
-                                            @endif
+                                            #{{ $index + 1 }}
                                         </div>
                                     </div>
-
-                                    <!-- Course Info -->
                                     <div class="flex-grow-1">
                                         <h6 class="mb-2 fw-semibold">{{ $course->title }}</h6>
                                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -410,8 +400,6 @@
                                                 <span class="badge bg-orange-light badge-clean">৳{{ number_format($course->price, 2) }}</span>
                                             @endif
                                         </div>
-
-                                        <!-- Progress Bar -->
                                         @php
                                             $maxEnrollments = $popularCourses->max('students_count');
                                             $percentage = $maxEnrollments > 0 ? ($course->students_count / $maxEnrollments) * 100 : 0;
@@ -419,23 +407,18 @@
                                             $barColor = $barColors[$index % count($barColors)];
                                         @endphp
                                         <div class="progress-clean">
-                                            <div class="progress-bar {{ $barColor }}" role="progressbar"
-                                                style="width: {{ $percentage }}%"
-                                                aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
+                                            <div class="progress-bar {{ $barColor }}" style="width: {{ $percentage }}%"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <div class="text-center py-5">
-                                <p class="text-muted mb-0">No courses found</p>
-                            </div>
+                            <div class="text-center py-5"><p class="text-muted mb-0">No courses found</p></div>
                         @endforelse
                     </div>
                     @if($popularCourses->count() > 0)
                         <div class="p-3 bg-light border-top text-center">
-                            <a href="{{ route('admin.courses.index') }}" class="text-decoration-none fw-semibold text-primary" style="font-size: 0.875rem;">
+                            <a href="{{ route('admin.courses.index') }}" class="fw-semibold link-blue" style="font-size: 0.875rem;">
                                 View All Courses →
                             </a>
                         </div>
@@ -447,78 +430,45 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('enrollmentChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: {!! json_encode($monthLabels) !!},
-                datasets: [{
-                    label: 'Enrollments',
-                    data: {!! json_encode($monthCounts) !!},
-                    borderColor: '#04317aff',
-                    backgroundColor: 'rgba(4, 49, 122, 0.1)',
-                    tension: 0.4,
-                    fill: true,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: '#04317aff',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    tooltip: {
-                        backgroundColor: '#1e293b',
-                        padding: 12,
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
+        const ctx = document.getElementById('enrollmentChart')?.getContext('2d');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {!! json_encode($monthLabels) !!},
+                    datasets: [{
+                        label: 'Enrollments',
+                        data: {!! json_encode($monthCounts) !!},
                         borderColor: '#04317aff',
-                        borderWidth: 1,
-                        callbacks: {
-                            label: function (context) {
-                                return 'Enrollments: ' + context.parsed.y;
-                            }
-                        }
-                    }
+                        backgroundColor: 'rgba(4, 49, 122, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#04317aff',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f1f5f9',
-                            drawBorder: false,
-                        },
-                        ticks: {
-                            color: '#64748b',
-                            font: {
-                                size: 11
-                            }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#04317aff',
+                            borderWidth: 1,
                         }
                     },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false,
-                        },
-                        ticks: {
-                            color: '#64748b',
-                            font: {
-                                size: 11
-                            }
-                        }
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
                     }
                 }
-            }
-        });
+            });
+        }
     </script>
 @endsection

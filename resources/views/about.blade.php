@@ -18,7 +18,8 @@
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <img src="{{ asset('frontend/dist/images/Contact/image.jpg') }}"
                         class="img-fluid rounded shadow-lg about-image"
-                        alt="EduForge Online Learning">
+                        alt="EduForge Online Learning"
+                        style="width: calc(100% - 10px); height: calc(100% - 10px);">
                 </div>
                 <div class="col-lg-6">
                     <h2 class="fw-bold mb-4">Who We Are</h2>
@@ -27,11 +28,6 @@
                         access to quality learning experiences. We connect students, professionals, and lifelong learners
                         with expert instructors from around the world, offering a diverse range of courses designed to meet
                         the evolving demands of today's job market.
-                    </p>
-                    <p class="text-muted mb-4" style="font-size: 1.1rem; line-height: 1.8;">
-                        Founded with the belief that education is the cornerstone of personal and professional growth, we
-                        leverage advanced technology and innovative teaching methodologies to create an engaging, flexible,
-                        and effective learning environment accessible to everyone, anywhere, anytime.
                     </p>
                     <div class="d-flex gap-4 mb-3">
                         <div>
