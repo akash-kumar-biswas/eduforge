@@ -17,8 +17,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <img src="{{ asset('frontend/dist/images/Contact/image.jpg') }}"
-                        class="img-fluid rounded shadow-lg about-image"
-                        alt="EduForge Online Learning"
+                        class="img-fluid rounded shadow-lg about-image" alt="EduForge Online Learning"
                         style="width: calc(100% - 10px); height: calc(100% - 10px);">
                 </div>
                 <div class="col-lg-6">
@@ -264,19 +263,68 @@
     </section>
 
     <style>
+        /* ✅ Jumping hover effect for cards */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
         }
 
-        /* ✅ Move About Page Image 20px Left */
+        /* ✅ Jumping effect for Mission & Vision cards */
+        section.bg-light .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section.bg-light .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* ✅ Jumping effect for stats numbers */
+        .d-flex.gap-4>div {
+            transition: transform 0.3s ease;
+        }
+
+        .d-flex.gap-4>div:hover {
+            transform: translateY(-8px);
+        }
+
+        /* ✅ Jumping effect for "What We Offer" items */
+        .d-flex.align-items-start {
+            transition: transform 0.3s ease;
+        }
+
+        .d-flex.align-items-start:hover {
+            transform: translateY(-8px);
+        }
+
+        /* ✅ Icon rotation effect on hover */
+        .bg-primary.text-white.rounded-circle i,
+        .bg-primary.bg-opacity-10 i {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .bg-primary.bg-opacity-10 i {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        section.bg-light .card:hover .bg-primary.text-white.rounded-circle i {
+            transform: rotate(360deg);
+        }
+
+        /* ✅ About image hover effect */
         .about-image {
             position: relative;
             left: -20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-image:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
         }
 
         @media (max-width: 768px) {

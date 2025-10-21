@@ -34,11 +34,18 @@ class CartController extends Controller
         }
 
         $studentId = Auth::guard('student')->id();
+        $student = Auth::guard('student')->user();
 
         // Check if course exists
         $course = Course::find($courseId);
         if (!$course) {
             return redirect()->back()->with('error', 'Course not found!');
+        }
+
+        // Check if student is already enrolled in this course
+        $isEnrolled = $student->courses()->where('courses.id', $courseId)->exists();
+        if ($isEnrolled) {
+            return redirect()->back()->with('error', 'You are already enrolled in this course! Check your dashboard.');
         }
 
         // Use firstOrCreate to prevent race condition

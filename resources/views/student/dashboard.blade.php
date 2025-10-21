@@ -30,15 +30,16 @@
             gap: 20px;
         }
 
-.student-avatar {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #175388ff;
-    box-shadow: 0 4px 15px #175388ff;
-    background-color: #175388ff; /* 🔹 Added this line to match border color */
-}
+        .student-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #175388ff;
+            box-shadow: 0 4px 15px #175388ff;
+            background-color: #175388ff;
+            /* 🔹 Added this line to match border color */
+        }
 
 
         .student-info h2 {
@@ -196,21 +197,24 @@
             box-shadow: 0 4px 12px rgba(79, 172, 254, 0.1);
         }
 
-.instructor-avatar-wrapper {
-    width: 80px;
-    height: 80px;
-    min-width: 80px;
-    min-height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #175388ff; /* ✅ Match student avatar border */
-    box-shadow: 0 4px 12px rgba(23, 83, 136, 0.3); /* ✅ Softer tone of the same blue */
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #175388ff; /* ✅ Match the border color */
-}
+        .instructor-avatar-wrapper {
+            width: 80px;
+            height: 80px;
+            min-width: 80px;
+            min-height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #175388ff;
+            /* ✅ Match student avatar border */
+            box-shadow: 0 4px 12px rgba(23, 83, 136, 0.3);
+            /* ✅ Softer tone of the same blue */
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #175388ff;
+            /* ✅ Match the border color */
+        }
 
 
         .instructor-avatar {
@@ -535,8 +539,8 @@
         }
 
         /* ========================================
-                               📱 RESPONSIVE STYLES
-                               ======================================== */
+                                       📱 RESPONSIVE STYLES
+                                       ======================================== */
 
         /* Large Tablets (992px and below) */
         @media (max-width: 992px) {
@@ -1128,7 +1132,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="student-profile">
-<img src="{{ $student->image ? asset('uploads/students/' . $student->image) : 'https://ui-avatars.com/api/?name=' . urlencode($student->name) . '&size=90&background=175388ff&color=fff' }}"
+                        <img src="{{ $student->image ? asset('uploads/students/' . $student->image) : 'https://ui-avatars.com/api/?name=' . urlencode($student->name) . '&size=90&background=175388ff&color=fff' }}"
                             alt="{{ $student->name }}" class="student-avatar">
                         <div class="student-info">
                             <h2>{{ $student->name }}</h2>
@@ -1167,7 +1171,11 @@
         <div class="dashboard-nav">
             <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-courses-tab" data-bs-toggle="tab" data-bs-target="#all-courses"
+                    <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                        data-bs-target="#dashboard-content" type="button" role="tab">Dashboard</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="all-courses-tab" data-bs-toggle="tab" data-bs-target="#all-courses"
                         type="button" role="tab">All Courses</button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -1183,59 +1191,281 @@
 
         <!-- Tab Content -->
         <div class="tab-content" id="dashboardTabsContent">
-            <!-- All Courses Tab -->
-            <div class="tab-pane fade show active" id="all-courses" role="tabpanel">
-                @if($allCourses->count() > 0)
-                    <div class="courses-grid">
-                        @foreach($allCourses as $course)
-                            @php
-                                $isCompleted = false;
-                                // if the pivot has is_completed (from migration) use it
-                                if (isset($course->pivot) && isset($course->pivot->is_completed)) {
-                                    $isCompleted = (bool) $course->pivot->is_completed;
-                                } else {
-                                    // fallback: if student.complete_course is present, UI will show count only
-                                    $isCompleted = false;
-                                }
-                            @endphp
-                            <div class="course-card" data-course-id="{{ $course->id }}">
-                                <img src="{{ $course->image ? asset('uploads/courses/' . $course->image) : 'https://via.placeholder.com/400x220/4facfe/ffffff?text=Course+Image' }}"
-                                    alt="{{ $course->title }}" class="course-image">
-                                <div class="course-content">
-                                    <h3 class="course-title">{{ $course->title }}</h3>
+            <!-- Dashboard Tab -->
+            <div class="tab-pane fade show active" id="dashboard-content" role="tabpanel">
+                <style>
+                    .stats-card-student {
+                        background: #fff;
+                        border-radius: 12px;
+                        padding: 1.5rem;
+                        border: 1px solid #e2e8f0;
+                        transition: all 0.3s ease;
+                        height: 100%;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    }
 
-                                    <div class="course-instructor">
-                                        <div class="instructor-avatar-wrapper">
-                                            <img 
-    src="{{ $course->instructor->image 
-        ? asset('uploads/instructors/' . $course->instructor->image) 
-        : 'https://ui-avatars.com/api/?name=' . urlencode($course->instructor->name) . '&size=80&background=175388ff&color=fff' }}" 
-    alt="{{ $course->instructor->name }}" 
-    class="instructor-avatar">
+                    .stats-card-student:hover {
+                        border-color: #175388ff;
+                        box-shadow: 0 6px 20px rgba(23, 83, 136, 0.15);
+                        transform: translateY(-3px);
+                    }
 
-                                        </div>
-                                        <div class="instructor-info">
-                                            <div class="instructor-name">{{ $course->instructor->name }}</div>
-                                            <div class="instructor-email">{{ $course->instructor->email }}</div>
-                                        </div>
+                    .stats-value-student {
+                        font-size: 2.5rem;
+                        font-weight: 700;
+                        color: #1e293b;
+                        margin: 0.5rem 0;
+                    }
+
+                    .stats-label-student {
+                        color: #64748b;
+                        font-size: 0.875rem;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                    }
+
+                    .stats-icon-student {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.75rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    .icon-blue-student {
+                        background: rgba(23, 83, 136, 0.1);
+                        color: #175388ff;
+                    }
+
+                    .icon-green-student {
+                        background: rgba(67, 233, 123, 0.1);
+                        color: #43e97b;
+                    }
+
+                    .icon-orange-student {
+                        background: rgba(245, 158, 11, 0.1);
+                        color: #f59e0b;
+                    }
+
+                    .icon-purple-student {
+                        background: rgba(139, 92, 246, 0.1);
+                        color: #8b5cf6;
+                    }
+
+                    .welcome-card {
+                        background: linear-gradient(135deg, #175388ff 0%, #136ebeff 100%);
+                        border-radius: 12px;
+                        padding: 2rem;
+                        color: white;
+                        margin-bottom: 2rem;
+                        box-shadow: 0 4px 15px rgba(23, 83, 136, 0.3);
+                    }
+
+                    .welcome-card h2 {
+                        font-size: 2rem;
+                        font-weight: 700;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .welcome-card p {
+                        font-size: 1.1rem;
+                        opacity: 0.95;
+                        margin: 0;
+                    }
+
+                    .recent-activity-card {
+                        background: #fff;
+                        border-radius: 12px;
+                        padding: 1.5rem;
+                        border: 1px solid #e2e8f0;
+                        margin-top: 2rem;
+                    }
+
+                    .activity-header {
+                        font-size: 1.25rem;
+                        font-weight: 700;
+                        color: #1e293b;
+                        margin-bottom: 1.5rem;
+                        padding-bottom: 0.75rem;
+                        border-bottom: 2px solid #175388ff;
+                    }
+
+                    .activity-item {
+                        padding: 1rem;
+                        border-bottom: 1px solid #f1f5f9;
+                        transition: background 0.2s ease;
+                    }
+
+                    .activity-item:hover {
+                        background: #f8fafc;
+                    }
+
+                    .activity-item:last-child {
+                        border-bottom: none;
+                    }
+                </style>
+
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+                    <h2>Welcome back, {{ $student->name }}! </h2>
+                    <p>Continue your learning journey and achieve your goals</p>
+                </div>
+
+                <!-- Stats Cards Row -->
+                <div class="row g-4 mb-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stats-card-student">
+                            <div class="stats-icon-student icon-blue-student">
+                                <i class="bi bi-book"></i>
+                            </div>
+                            <div class="stats-label-student">Enrolled Courses</div>
+                            <div class="stats-value-student">{{ $enrolledCount }}</div>
+                            <small class="text-muted">Active Learning</small>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stats-card-student">
+                            <div class="stats-icon-student icon-green-student">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <div class="stats-label-student">Completed Courses</div>
+                            <div class="stats-value-student">{{ $completedCount }}</div>
+                            <small class="text-muted">Certificates Earned</small>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stats-card-student">
+                            <div class="stats-icon-student icon-orange-student">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                            <div class="stats-label-student">In Progress</div>
+                            <div class="stats-value-student">{{ $enrolledCount - $completedCount }}</div>
+                            <small class="text-muted">Keep Learning!</small>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="stats-card-student">
+                            <div class="stats-icon-student icon-purple-student">
+                                <i class="bi bi-cart3"></i>
+                            </div>
+                            <div class="stats-label-student">In Cart</div>
+                            <div class="stats-value-student">{{ $cartCount ?? 0 }}
+                            </div>
+                            <small class="text-muted">Courses to Purchase</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity-card">
+                    <h3 class="activity-header"><i class="bi bi-clock-history me-2"></i>Recent Activity</h3>
+                    @if($allCourses->count() > 0)
+                        @foreach($allCourses->take(5) as $course)
+                            <div class="activity-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ $course->image ? asset('uploads/courses/' . $course->image) : 'https://via.placeholder.com/60x60/175388/ffffff?text=Course' }}"
+                                            alt="{{ $course->title }}"
+                                            style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
                                     </div>
-
-                                    <div class="course-actions">
-                                        <a href="{{ route('student.courses.watch', $course->id) }}" class="watch-course-btn">
-                                            <i class="bi bi-play-circle me-1"></i> WATCH
-                                        </a>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1 fw-semibold">{{ $course->title }}</h6>
+                                        <small class="text-muted">
+                                            <i class="bi bi-person me-1"></i>{{ $course->instructor->name ?? 'Instructor' }}
+                                        </small>
+                                    </div>
+                                    <div class="text-end">
+                                        @php
+                                            $isCompleted = false;
+                                            if (isset($course->pivot) && isset($course->pivot->is_completed)) {
+                                                $isCompleted = (bool) $course->pivot->is_completed;
+                                            }
+                                        @endphp
                                         @if($isCompleted)
-                                            <button class="complete-course-btn" disabled>
-                                                <i class="bi bi-check-circle me-1"></i> COMPLETED
-                                            </button>
+                                            <span class="badge" style="background: #43e97b; color: white;">
+                                                <i class="bi bi-check-circle me-1"></i>Completed
+                                            </span>
                                         @else
-                                            <button onclick="completeCourse(this, {{ $course->id }})" class="complete-course-btn">
-                                                <i class="bi bi-check-circle me-1"></i> COMPLETE
-                                            </button>
+                                            <a href="{{ route('student.courses.watch', $course->id) }}" class="btn btn-sm"
+                                                style="background: #175388ff; color: white; border: none;">
+                                                <i class="bi bi-play-circle me-1"></i>Continue
+                                            </a>
                                         @endif
                                     </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox" style="font-size: 3rem; color: #bdc3c7;"></i>
+                            <h5 class="mt-3 text-muted">No courses enrolled yet</h5>
+                            <p class="text-muted">Start exploring courses to begin your learning journey!</p>
+                            <a href="{{ url('/courses') }}" class="btn btn-primary mt-2">
+                                <i class="bi bi-search me-2"></i>Browse Courses
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- All Courses Tab -->
+            <div class="tab-pane fade" id="all-courses" role="tabpanel">
+                @if($allCourses->count() > 0)
+                    <div class="courses-grid">
+                        @foreach($allCourses as $course)
+                                @php
+                                    $isCompleted = false;
+                                    // if the pivot has is_completed (from migration) use it
+                                    if (isset($course->pivot) && isset($course->pivot->is_completed)) {
+                                        $isCompleted = (bool) $course->pivot->is_completed;
+                                    } else {
+                                        // fallback: if student.complete_course is present, UI will show count only
+                                        $isCompleted = false;
+                                    }
+                                @endphp
+                                <div class="course-card" data-course-id="{{ $course->id }}">
+                                    <img src="{{ $course->image ? asset('uploads/courses/' . $course->image) : 'https://via.placeholder.com/400x220/4facfe/ffffff?text=Course+Image' }}"
+                                        alt="{{ $course->title }}" class="course-image">
+                                    <div class="course-content">
+                                        <h3 class="course-title">{{ $course->title }}</h3>
+
+                                        <div class="course-instructor">
+                                            <div class="instructor-avatar-wrapper">
+                                                <img src="{{ $course->instructor->image
+                            ? asset('uploads/instructors/' . $course->instructor->image)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($course->instructor->name) . '&size=80&background=175388ff&color=fff' }}"
+                                                    alt="{{ $course->instructor->name }}" class="instructor-avatar">
+
+                                            </div>
+                                            <div class="instructor-info">
+                                                <div class="instructor-name">{{ $course->instructor->name }}</div>
+                                                <div class="instructor-email">{{ $course->instructor->email }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="course-actions">
+                                            <a href="{{ route('student.courses.watch', $course->id) }}" class="watch-course-btn">
+                                                <i class="bi bi-play-circle me-1"></i> WATCH
+                                            </a>
+                                            @if($isCompleted)
+                                                <button class="complete-course-btn" disabled>
+                                                    <i class="bi bi-check-circle me-1"></i> COMPLETED
+                                                </button>
+                                            @else
+                                                <button onclick="completeCourse(this, {{ $course->id }})" class="complete-course-btn">
+                                                    <i class="bi bi-check-circle me-1"></i> COMPLETE
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                         @endforeach
                     </div>
                 @else
@@ -1584,12 +1814,12 @@
 
             if (visibleCourses.length === 0) {
                 coursesGrid.innerHTML = `
-                                    <div class="empty-state" style="grid-column: 1 / -1;">
-                                        <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
-                                        <h3>🎉 Congratulations!</h3>
-                                        <p>You've completed all your enrolled courses!</p>
-                                    </div>
-                                `;
+                                            <div class="empty-state" style="grid-column: 1 / -1;">
+                                                <i class="bi bi-trophy-fill" style="font-size: 4rem; color: #43e97b;"></i>
+                                                <h3>🎉 Congratulations!</h3>
+                                                <p>You've completed all your enrolled courses!</p>
+                                            </div>
+                                        `;
             }
         }
 

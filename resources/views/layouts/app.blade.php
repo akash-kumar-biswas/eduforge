@@ -37,13 +37,9 @@
             border-color: var(--bs-primary);
         }
 
-        .btn-primary:hover,
-        .btn-outline-light:hover {
-            background-color: #343a40;
-        }
-
-        .btn-outline-light:hover {
-            color: #fff !important;
+        .btn-primary:hover {
+            background-color: #0b56a0;
+            border-color: #0b56a0;
         }
 
         body {
@@ -63,6 +59,18 @@
 
         .navbar-nav .nav-link:hover {
             text-decoration: underline;
+        }
+
+        /* ✅ Sign In and Cart button - jump animation on hover */
+        .btn-outline-light {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-outline-light:hover {
+            background-color: transparent !important;
+            border-color: #fff !important;
+            color: #fff !important;
+            transform: translateY(-5px);
         }
 
         .navbar-brand img {
@@ -87,14 +95,15 @@
         footer {
             background: linear-gradient(180deg, #1a1d20 0%, #111315 100%);
             color: #ccc;
-                margin-bottom: 0 !important;
-                padding-bottom: 0 !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
         }
 
         .footer-bottom {
-    margin-bottom: 0 !important;
-    padding-bottom: 2px !important; /* was likely 20px or more */
-}
+            margin-bottom: 0 !important;
+            padding-bottom: 2px !important;
+            /* was likely 20px or more */
+        }
 
 
 
@@ -159,8 +168,10 @@
             margin-top: 30px;
             padding-top: 15px;
             text-align: center;
-            font-size: 1.1rem; /* ⬆ Increased font size */
-            font-weight: 600; /* ⬆ Bold for visibility */
+            font-size: 1.1rem;
+            /* ⬆ Increased font size */
+            font-weight: 600;
+            /* ⬆ Bold for visibility */
             color: #f1f1f1;
         }
 
@@ -169,7 +180,6 @@
         .browse-c {
             background-color: #434548ff !important;
         }
-        
     </style>
 </head>
 
@@ -209,7 +219,9 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                                 <li><a class="dropdown-item" href="{{ route('student.dashboard') }}">Dashboard</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li>
                                     <form action="{{ route('student.logout') }}" method="POST" class="m-0">
                                         @csrf
@@ -312,9 +324,10 @@
                 </div>
             </div>
 
-<div class="footer-bottom mt-4 pt-3 text-center border-top border-secondary" style="font-size: 0.84rem;">
-    &copy; {{ date('Y') }} <span class="text-primary fw-bold" style="font-size: 0.84rem;">EduForge</span>. All rights reserved.
-</div>
+            <div class="footer-bottom mt-4 pt-3 text-center border-top border-secondary" style="font-size: 0.84rem;">
+                &copy; {{ date('Y') }} <span class="text-primary fw-bold" style="font-size: 0.84rem;">EduForge</span>.
+                All rights reserved.
+            </div>
 
 
         </div>

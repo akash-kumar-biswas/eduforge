@@ -7,7 +7,8 @@
     <section class="py-5 bg-primary text-white about-s">
         <div class="container text-center">
             <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
-            <p class="lead mb-0">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            <p class="lead mb-0">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as
+                possible.</p>
         </div>
     </section>
 
@@ -114,4 +115,57 @@
             </div>
         </div>
     </section>
+
+    <style>
+        /* ✅ Jumping hover effect for contact info cards */
+        .card.border-0.shadow-sm {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card.border-0.shadow-sm:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* ✅ Icon bounce effect on hover */
+        .card.border-0.shadow-sm i {
+            transition: transform 0.3s ease;
+        }
+
+        .card.border-0.shadow-sm:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* ✅ Form input jump effect on focus */
+        .form-control {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2) !important;
+        }
+
+        /* ✅ Submit button jump effect on hover */
+        .btn-primary.btn-lg {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary.btn-lg:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.3) !important;
+        }
+
+        /* ✅ Label animation on focus */
+        .form-label {
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .form-control:focus+.form-label,
+        .form-control:focus~.form-label {
+            color: var(--bs-primary);
+            transform: translateX(5px);
+        }
+    </style>
 @endsection

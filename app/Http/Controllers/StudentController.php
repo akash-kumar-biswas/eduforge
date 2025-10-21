@@ -44,7 +44,10 @@ class StudentController extends Controller
                 return $payment;
             });
 
-        return view('student.dashboard', compact('student', 'allCourses', 'enrolledCount', 'completedCount', 'purchaseHistory'));
+        // Get cart items count
+        $cartCount = \App\Models\Cart::where('student_id', $student->id)->count();
+
+        return view('student.dashboard', compact('student', 'allCourses', 'enrolledCount', 'completedCount', 'purchaseHistory', 'cartCount'));
     }
 
     public function index()
@@ -145,7 +148,8 @@ class StudentController extends Controller
             'method' => request()->method(),
             'ip' => request()->ip(),
             'headers' => collect(request()->headers->all())->mapWithKeys(function ($v, $k) {
-                return [$k => $v[0] ?? null]; })->toArray(),
+                return [$k => $v[0] ?? null];
+            })->toArray(),
         ]);
 
         if (!$student) {
