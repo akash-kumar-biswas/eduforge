@@ -3,13 +3,6 @@
 @section('title', 'About Us - EduForge Online Education System')
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="py-5 text-white about-s" style="background: #343a40 !important;">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3">About EduForge</h1>
-            <p class="lead mb-0">Transforming Lives Through Accessible Online Education</p>
-        </div>
-    </section>
 
     <!-- Who We Are Section -->
     <section class="py-5">
